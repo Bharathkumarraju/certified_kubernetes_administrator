@@ -1,0 +1,297 @@
+#bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ kubectl get pod kube-apiserver-minikube  -n kube-system -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.64.2:8443
+    kubernetes.io/config.hash: 59a25aa23d3a8b3a2bc6157139d12f6c
+    kubernetes.io/config.mirror: 59a25aa23d3a8b3a2bc6157139d12f6c
+    kubernetes.io/config.seen: "2020-03-29T02:24:05.496567899Z"
+    kubernetes.io/config.source: file
+  creationTimestamp: "2020-03-29T02:24:06Z"
+  labels:
+    component: kube-apiserver
+    tier: control-plane
+  managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: {}
+            f:kubernetes.io/config.hash: {}
+            f:kubernetes.io/config.mirror: {}
+            f:kubernetes.io/config.seen: {}
+            f:kubernetes.io/config.source: {}
+          f:labels:
+            .: {}
+            f:component: {}
+            f:tier: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"5fdf8c0a-1e44-43aa-be97-68af64e51161"}:
+              .: {}
+              f:apiVersion: {}
+              f:controller: {}
+              f:kind: {}
+              f:name: {}
+              f:uid: {}
+        f:spec:
+          f:containers:
+            k:{"name":"kube-apiserver"}:
+              .: {}
+              f:command: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:livenessProbe:
+                .: {}
+                f:failureThreshold: {}
+                f:httpGet:
+                  .: {}
+                  f:host: {}
+                  f:path: {}
+                  f:port: {}
+                  f:scheme: {}
+                f:initialDelaySeconds: {}
+                f:periodSeconds: {}
+                f:successThreshold: {}
+                f:timeoutSeconds: {}
+              f:name: {}
+              f:resources:
+                .: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/etc/ssl/certs"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/usr/share/ca-certificates"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+                k:{"mountPath":"/var/lib/minikube/certs"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:hostNetwork: {}
+          f:nodeName: {}
+          f:priorityClassName: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:terminationGracePeriodSeconds: {}
+          f:tolerations: {}
+          f:volumes:
+            .: {}
+            k:{"name":"ca-certs"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"k8s-certs"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+            k:{"name":"usr-share-ca-certificates"}:
+              .: {}
+              f:hostPath:
+                .: {}
+                f:path: {}
+                f:type: {}
+              f:name: {}
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"PodScheduled"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"192.168.64.2"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: kubelet
+      operation: Update
+      time: "2020-04-18T00:24:04Z"
+  name: kube-apiserver-minikube
+  namespace: kube-system
+  ownerReferences:
+    - apiVersion: v1
+      controller: true
+      kind: Node
+      name: minikube
+      uid: 5fdf8c0a-1e44-43aa-be97-68af64e51161
+  resourceVersion: "700441"
+  selfLink: /api/v1/namespaces/kube-system/pods/kube-apiserver-minikube
+  uid: b4bf4f2e-21f1-4eb4-a99d-a8ca4bee10bc
+spec:
+  containers:
+    - command:
+        - kube-apiserver
+        - --advertise-address=192.168.64.2
+        - --allow-privileged=true
+        - --authorization-mode=Node,RBAC
+        - --client-ca-file=/var/lib/minikube/certs/ca.crt
+        - --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota
+        - --enable-bootstrap-token-auth=true
+        - --etcd-cafile=/var/lib/minikube/certs/etcd/ca.crt
+        - --etcd-certfile=/var/lib/minikube/certs/apiserver-etcd-client.crt
+        - --etcd-keyfile=/var/lib/minikube/certs/apiserver-etcd-client.key
+        - --etcd-servers=https://127.0.0.1:2379
+        - --insecure-port=0
+        - --kubelet-client-certificate=/var/lib/minikube/certs/apiserver-kubelet-client.crt
+        - --kubelet-client-key=/var/lib/minikube/certs/apiserver-kubelet-client.key
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        - --proxy-client-cert-file=/var/lib/minikube/certs/front-proxy-client.crt
+        - --proxy-client-key-file=/var/lib/minikube/certs/front-proxy-client.key
+        - --requestheader-allowed-names=front-proxy-client
+        - --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt
+        - --requestheader-extra-headers-prefix=X-Remote-Extra-
+        - --requestheader-group-headers=X-Remote-Group
+        - --requestheader-username-headers=X-Remote-User
+        - --secure-port=8443
+        - --service-account-key-file=/var/lib/minikube/certs/sa.pub
+        - --service-cluster-ip-range=10.96.0.0/12
+        - --tls-cert-file=/var/lib/minikube/certs/apiserver.crt
+        - --tls-private-key-file=/var/lib/minikube/certs/apiserver.key
+      image: k8s.gcr.io/kube-apiserver:v1.18.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 8
+        httpGet:
+          host: 192.168.64.2
+          path: /healthz
+          port: 8443
+          scheme: HTTPS
+        initialDelaySeconds: 15
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 15
+      name: kube-apiserver
+      resources:
+        requests:
+          cpu: 250m
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+        - mountPath: /etc/ssl/certs
+          name: ca-certs
+          readOnly: true
+        - mountPath: /var/lib/minikube/certs
+          name: k8s-certs
+          readOnly: true
+        - mountPath: /usr/share/ca-certificates
+          name: usr-share-ca-certificates
+          readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostNetwork: true
+  nodeName: minikube
+  priority: 2000000000
+  priorityClassName: system-cluster-critical
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  terminationGracePeriodSeconds: 30
+  tolerations:
+    - effect: NoExecute
+      operator: Exists
+  volumes:
+    - hostPath:
+        path: /etc/ssl/certs
+        type: DirectoryOrCreate
+      name: ca-certs
+    - hostPath:
+        path: /var/lib/minikube/certs
+        type: DirectoryOrCreate
+      name: k8s-certs
+    - hostPath:
+        path: /usr/share/ca-certificates
+        type: DirectoryOrCreate
+      name: usr-share-ca-certificates
+status:
+  conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2020-04-17T22:51:02Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2020-04-17T22:51:03Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2020-04-17T22:51:03Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2020-04-17T22:51:02Z"
+      status: "True"
+      type: PodScheduled
+  containerStatuses:
+    - containerID: docker://426b76131aed210b2789a72df1e125dbc56a31df7874385127ab88851f1a7898
+      image: k8s.gcr.io/kube-apiserver:v1.18.0
+      imageID: docker-pullable://k8s.gcr.io/kube-apiserver@sha256:fc4efb55c2a7d4e7b9a858c67e24f00e739df4ef5082500c2b60ea0903f18248
+      lastState:
+        terminated:
+          containerID: docker://cb5fe2ea98c45073cecf1ae7bf93c70e74371d7134082002a6e58452d1a46942
+          exitCode: 255
+          finishedAt: "2020-04-17T22:50:51Z"
+          reason: Error
+          startedAt: "2020-04-16T03:55:04Z"
+      name: kube-apiserver
+      ready: true
+      restartCount: 2
+      started: true
+      state:
+        running:
+          startedAt: "2020-04-17T22:51:03Z"
+  hostIP: 192.168.64.2
+  phase: Running
+  podIP: 192.168.64.2
+  podIPs:
+    - ip: 192.168.64.2
+  qosClass: Burstable
+  startTime: "2020-04-17T22:51:02Z"
+#bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $
