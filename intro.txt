@@ -1,0 +1,100 @@
+Docker
+Basics of kubernetes
+YAML Basics
+
+Core concepts:
+ 1. cluster architecture
+ 2. API Primitives
+ 3. Services and other network primitives
+
+Sccheduling:
+ 1. Labels and Selectors
+ 2. Resource Limits
+ 3. Manual Scheduling
+ 4. Daemon Sets
+ 5. Multiple Schedulers
+ 6. Scheduler Events
+ 7. Configure kubernetes scheduler
+
+Logging and Monitoring:
+ 1. Monitor CLuster components
+ 2. Monitor Cluster component logs
+ 3. Monitor Applications
+ 4. Application Logs
+
+Application Lifecycle Management
+ 1. Rolling Updates and Rollbacks in Deploy
+ 2. Configure Applications
+ 3. Scale Applications
+ 4. self-Healing Application
+
+Cluster Maintenance
+ 1. Cluster Upgrade Process
+ 2. Operating system upgrades
+ 3. backup and restore methodologies
+
+Security
+ 1. Authentication & Authorization(RBAC)
+ 2. Kubernetes Security
+ 3. Network Policies
+ 4. TLS certificates for cluster components
+ 5. Image security
+ 6. security contexts
+ 7. secure persistent key value store
+
+Storage
+ 1. Persistent Volumes
+ 2. Access Modes for Volumes
+ 3. Persistent Volume Claims
+ 4. Kubernetes Storage Object
+ 5. Configure applications with persistent storage
+
+Networking:
+ 1. IPAM(CNI)
+ 2. Pre-Requisites - Network,Switching, Routing, Tools
+ 3. pre-Requisites - DNS and CoreDNS
+ 4. Pre-Requisites - Network namespaces, Networking in docker
+ 5. Network configuration on cluster nodes
+ 6. Pod networking concepts
+ 7. Network Loadbalancer
+ 8. Ingress
+ 9. Service networking
+ 10. clusterDNS
+ 11. CNI(IPAM)
+
+Installation,Configuration and validation
+ 1. Design kubernetes cluster
+ 2. Secure cluster communication
+ 3. HA kubernetes cluster
+ 4. Choose a network solution
+ 5. Run and analyze end-to-end tests
+ 6. TLS bootstapping
+
+Troubleshooting
+ 1. Application Failure
+ 2. Control Plane failure
+ 3. Worker Node failure
+ 4. Networking
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
