@@ -1,0 +1,236 @@
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ kubectl get pod kube-scheduler-minikube  -n kube-system -o yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/config.hash: 5795d0c442cb997ff93c49feeb9f6386
+      kubernetes.io/config.mirror: 5795d0c442cb997ff93c49feeb9f6386
+      kubernetes.io/config.seen: "2020-03-29T02:24:05.496558837Z"
+      kubernetes.io/config.source: file
+    creationTimestamp: "2020-03-29T02:24:06Z"
+    labels:
+      component: kube-scheduler
+      tier: control-plane
+    managedFields:
+      - apiVersion: v1
+        fieldsType: FieldsV1
+        fieldsV1:
+          f:metadata:
+            f:annotations:
+              .: {}
+              f:kubernetes.io/config.hash: {}
+              f:kubernetes.io/config.mirror: {}
+              f:kubernetes.io/config.seen: {}
+              f:kubernetes.io/config.source: {}
+            f:labels:
+              .: {}
+              f:component: {}
+              f:tier: {}
+            f:ownerReferences:
+              .: {}
+              k:{"uid":"5fdf8c0a-1e44-43aa-be97-68af64e51161"}:
+                .: {}
+                f:apiVersion: {}
+                f:controller: {}
+                f:kind: {}
+                f:name: {}
+                f:uid: {}
+          f:spec:
+            f:containers:
+              k:{"name":"kube-scheduler"}:
+                .: {}
+                f:command: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:livenessProbe:
+                  .: {}
+                  f:failureThreshold: {}
+                  f:httpGet:
+                    .: {}
+                    f:host: {}
+                    f:path: {}
+                    f:port: {}
+                    f:scheme: {}
+                  f:initialDelaySeconds: {}
+                  f:periodSeconds: {}
+                  f:successThreshold: {}
+                  f:timeoutSeconds: {}
+                f:name: {}
+                f:resources:
+                  .: {}
+                  f:requests:
+                    .: {}
+                    f:cpu: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+                f:volumeMounts:
+                  .: {}
+                  k:{"mountPath":"/etc/kubernetes/scheduler.conf"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+                    f:readOnly: {}
+            f:dnsPolicy: {}
+            f:enableServiceLinks: {}
+            f:hostNetwork: {}
+            f:nodeName: {}
+            f:priorityClassName: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:terminationGracePeriodSeconds: {}
+            f:tolerations: {}
+            f:volumes:
+              .: {}
+              k:{"name":"kubeconfig"}:
+                .: {}
+                f:hostPath:
+                  .: {}
+                  f:path: {}
+                  f:type: {}
+                f:name: {}
+          f:status:
+            f:conditions:
+              .: {}
+              k:{"type":"ContainersReady"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+              k:{"type":"Initialized"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+              k:{"type":"PodScheduled"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+              k:{"type":"Ready"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+            f:containerStatuses: {}
+            f:hostIP: {}
+            f:phase: {}
+            f:podIP: {}
+            f:podIPs:
+              .: {}
+              k:{"ip":"192.168.64.2"}:
+                .: {}
+                f:ip: {}
+            f:startTime: {}
+        manager: kubelet
+        operation: Update
+        time: "2020-04-22T22:25:49Z"
+    name: kube-scheduler-minikube
+    namespace: kube-system
+    ownerReferences:
+      - apiVersion: v1
+        controller: true
+        kind: Node
+        name: minikube
+        uid: 5fdf8c0a-1e44-43aa-be97-68af64e51161
+    resourceVersion: "989923"
+    selfLink: /api/v1/namespaces/kube-system/pods/kube-scheduler-minikube
+    uid: 1c3dd698-1c15-4331-8f8b-ea87ba3489af
+  spec:
+    containers:
+      - command:
+          - kube-scheduler
+          - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
+          - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
+          - --bind-address=127.0.0.1
+          - --kubeconfig=/etc/kubernetes/scheduler.conf
+          - --leader-elect=true
+        image: k8s.gcr.io/kube-scheduler:v1.18.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 8
+          httpGet:
+            host: 127.0.0.1
+            path: /healthz
+            port: 10259
+            scheme: HTTPS
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 15
+        name: kube-scheduler
+        resources:
+          requests:
+            cpu: 100m
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+          - mountPath: /etc/kubernetes/scheduler.conf
+            name: kubeconfig
+            readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: minikube
+    priority: 2000000000
+    priorityClassName: system-cluster-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    terminationGracePeriodSeconds: 30
+    tolerations:
+      - effect: NoExecute
+        operator: Exists
+    volumes:
+      - hostPath:
+          path: /etc/kubernetes/scheduler.conf
+          type: FileOrCreate
+        name: kubeconfig
+  status:
+    conditions:
+      - lastProbeTime: null
+        lastTransitionTime: "2020-04-17T22:51:02Z"
+        status: "True"
+        type: Initialized
+      - lastProbeTime: null
+        lastTransitionTime: "2020-04-22T22:25:49Z"
+        status: "True"
+        type: Ready
+      - lastProbeTime: null
+        lastTransitionTime: "2020-04-22T22:25:49Z"
+        status: "True"
+        type: ContainersReady
+      - lastProbeTime: null
+        lastTransitionTime: "2020-04-17T22:51:02Z"
+        status: "True"
+        type: PodScheduled
+    containerStatuses:
+      - containerID: docker://3251c5a6691bd5bd78c32b333c7408dd4154371fc55f680e4b6b5c6f2397a34b
+        image: k8s.gcr.io/kube-scheduler:v1.18.0
+        imageID: docker-pullable://k8s.gcr.io/kube-scheduler@sha256:33063bc856e99d12b9cb30aab1c1c755ecd458d5bd130270da7c51c70ca10cf6
+        lastState:
+          terminated:
+            containerID: docker://83afb9476e564ccc0a37abcbeec2476e25ec32064e2bf5a783f426b577c27c71
+            exitCode: 255
+            finishedAt: "2020-04-22T22:25:46Z"
+            reason: Error
+            startedAt: "2020-04-22T18:25:19Z"
+        name: kube-scheduler
+        ready: true
+        restartCount: 55
+        started: true
+        state:
+          running:
+            startedAt: "2020-04-22T22:25:48Z"
+    hostIP: 192.168.64.2
+    phase: Running
+    podIP: 192.168.64.2
+    podIPs:
+      - ip: 192.168.64.2
+    qosClass: Burstable
+    startTime: "2020-04-17T22:51:02Z"
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $
