@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hanuman-pod
+  labels:
+    app: hanumanapp
+    type: webapp
+    costcentre: bharath
+    location: singapore
+spec:
+  containers:
+    - name: hanuman-nginx-container-front-end
+      image: nginx
+    - name: hanuman-redis-container-back-end
+      image: redis
