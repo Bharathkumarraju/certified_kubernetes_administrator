@@ -1,0 +1,306 @@
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ kubectl get pod/kube-proxy-gbxft -n kube-system -o yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2020-03-29T02:24:12Z"
+    generateName: kube-proxy-
+    labels:
+      controller-revision-hash: c8bb659c5
+      k8s-app: kube-proxy
+      pod-template-generation: "1"
+    managedFields:
+      - apiVersion: v1
+        fieldsType: FieldsV1
+        fieldsV1:
+          f:metadata:
+            f:generateName: {}
+            f:labels:
+              .: {}
+              f:controller-revision-hash: {}
+              f:k8s-app: {}
+              f:pod-template-generation: {}
+            f:ownerReferences:
+              .: {}
+              k:{"uid":"7a01fbf4-5b00-4bc0-8117-8bce967151c6"}:
+                .: {}
+                f:apiVersion: {}
+                f:blockOwnerDeletion: {}
+                f:controller: {}
+                f:kind: {}
+                f:name: {}
+                f:uid: {}
+          f:spec:
+            f:affinity:
+              .: {}
+              f:nodeAffinity:
+                .: {}
+                f:requiredDuringSchedulingIgnoredDuringExecution:
+                  .: {}
+                  f:nodeSelectorTerms: {}
+            f:containers:
+              k:{"name":"kube-proxy"}:
+                .: {}
+                f:command: {}
+                f:env:
+                  .: {}
+                  k:{"name":"NODE_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:fieldRef:
+                        .: {}
+                        f:apiVersion: {}
+                        f:fieldPath: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources: {}
+                f:securityContext:
+                  .: {}
+                  f:privileged: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+                f:volumeMounts:
+                  .: {}
+                  k:{"mountPath":"/lib/modules"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+                    f:readOnly: {}
+                  k:{"mountPath":"/run/xtables.lock"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+                  k:{"mountPath":"/var/lib/kube-proxy"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+            f:dnsPolicy: {}
+            f:enableServiceLinks: {}
+            f:hostNetwork: {}
+            f:nodeSelector:
+              .: {}
+              f:kubernetes.io/os: {}
+            f:priorityClassName: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:serviceAccount: {}
+            f:serviceAccountName: {}
+            f:terminationGracePeriodSeconds: {}
+            f:tolerations: {}
+            f:volumes:
+              .: {}
+              k:{"name":"kube-proxy"}:
+                .: {}
+                f:configMap:
+                  .: {}
+                  f:defaultMode: {}
+                  f:name: {}
+                f:name: {}
+              k:{"name":"lib-modules"}:
+                .: {}
+                f:hostPath:
+                  .: {}
+                  f:path: {}
+                  f:type: {}
+                f:name: {}
+              k:{"name":"xtables-lock"}:
+                .: {}
+                f:hostPath:
+                  .: {}
+                  f:path: {}
+                  f:type: {}
+                f:name: {}
+        manager: kube-controller-manager
+        operation: Update
+        time: "2020-04-18T00:23:59Z"
+      - apiVersion: v1
+        fieldsType: FieldsV1
+        fieldsV1:
+          f:status:
+            f:conditions:
+              k:{"type":"ContainersReady"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+              k:{"type":"Initialized"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+              k:{"type":"Ready"}:
+                .: {}
+                f:lastProbeTime: {}
+                f:lastTransitionTime: {}
+                f:status: {}
+                f:type: {}
+            f:containerStatuses: {}
+            f:hostIP: {}
+            f:phase: {}
+            f:podIP: {}
+            f:podIPs:
+              .: {}
+              k:{"ip":"192.168.64.2"}:
+                .: {}
+                f:ip: {}
+            f:startTime: {}
+        manager: kubelet
+        operation: Update
+        time: "2020-04-18T00:24:02Z"
+    name: kube-proxy-gbxft
+    namespace: kube-system
+    ownerReferences:
+      - apiVersion: apps/v1
+        blockOwnerDeletion: true
+        controller: true
+        kind: DaemonSet
+        name: kube-proxy
+        uid: 7a01fbf4-5b00-4bc0-8117-8bce967151c6
+    resourceVersion: "700407"
+    selfLink: /api/v1/namespaces/kube-system/pods/kube-proxy-gbxft
+    uid: 2a057b7b-f477-4b3c-a9fa-8dd54565a88a
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchFields:
+                - key: metadata.name
+                  operator: In
+                  values:
+                    - minikube
+    containers:
+      - command:
+          - /usr/local/bin/kube-proxy
+          - --config=/var/lib/kube-proxy/config.conf
+          - --hostname-override=$(NODE_NAME)
+        env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+        image: k8s.gcr.io/kube-proxy:v1.18.0
+        imagePullPolicy: IfNotPresent
+        name: kube-proxy
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+          - mountPath: /var/lib/kube-proxy
+            name: kube-proxy
+          - mountPath: /run/xtables.lock
+            name: xtables-lock
+          - mountPath: /lib/modules
+            name: lib-modules
+            readOnly: true
+          - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            name: kube-proxy-token-lm58d
+            readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: minikube
+    nodeSelector:
+      kubernetes.io/os: linux
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: kube-proxy
+    serviceAccountName: kube-proxy
+    terminationGracePeriodSeconds: 30
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/disk-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/memory-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/pid-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/unschedulable
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/network-unavailable
+        operator: Exists
+    volumes:
+      - configMap:
+          defaultMode: 420
+          name: kube-proxy
+        name: kube-proxy
+      - hostPath:
+          path: /run/xtables.lock
+          type: FileOrCreate
+        name: xtables-lock
+      - hostPath:
+          path: /lib/modules
+          type: ""
+        name: lib-modules
+      - name: kube-proxy-token-lm58d
+        secret:
+          defaultMode: 420
+          secretName: kube-proxy-token-lm58d
+  status:
+    conditions:
+      - lastProbeTime: null
+        lastTransitionTime: "2020-03-29T02:24:12Z"
+        status: "True"
+        type: Initialized
+      - lastProbeTime: null
+        lastTransitionTime: "2020-04-17T22:51:15Z"
+        status: "True"
+        type: Ready
+      - lastProbeTime: null
+        lastTransitionTime: "2020-04-17T22:51:15Z"
+        status: "True"
+        type: ContainersReady
+      - lastProbeTime: null
+        lastTransitionTime: "2020-03-29T02:24:12Z"
+        status: "True"
+        type: PodScheduled
+    containerStatuses:
+      - containerID: docker://1c5ae55f07926d586101108aa0cfe6f22332973774e242328c776ab5d7a4f914
+        image: k8s.gcr.io/kube-proxy:v1.18.0
+        imageID: docker-pullable://k8s.gcr.io/kube-proxy@sha256:9e858386d52d0abaf936c1d10a763648ab7d85c8eb0af08a50a64238146e5571
+        lastState:
+          terminated:
+            containerID: docker://59643a7a3181672a82388c6d046cd861ff11b0548dbf9cecad886d030962017e
+            exitCode: 255
+            finishedAt: "2020-04-17T22:50:51Z"
+            reason: Error
+            startedAt: "2020-04-16T03:55:19Z"
+        name: kube-proxy
+        ready: true
+        restartCount: 2
+        started: true
+        state:
+          running:
+            startedAt: "2020-04-17T22:51:14Z"
+    hostIP: 192.168.64.2
+    phase: Running
+    podIP: 192.168.64.2
+    podIPs:
+      - ip: 192.168.64.2
+    qosClass: BestEffort
+    startTime: "2020-03-29T02:24:12Z"
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $
