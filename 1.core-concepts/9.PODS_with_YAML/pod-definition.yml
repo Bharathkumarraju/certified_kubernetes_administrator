@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bharaths-pod
+  labels:
+    app: bharathapp
+    type: front-end
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+
+#kubectl create -f pod-definition.yml
+
