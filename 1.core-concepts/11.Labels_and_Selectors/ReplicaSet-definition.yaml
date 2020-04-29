@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: bharathapp-replicationset
+  labels:
+    app: bharathapp
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: bharaths-pod
+      labels:
+        app: bharathapp
+        type: front-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+
+

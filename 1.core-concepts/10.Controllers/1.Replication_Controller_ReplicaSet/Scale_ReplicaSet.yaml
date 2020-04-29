@@ -1,0 +1,29 @@
+# First update the replicas to 6 in the file and then run below kubectl replace command
+# kubectl replace -f Scale_ReplicaSet.yaml
+
+# or use command line as $ kubectl scale --replicas=10 Scale_ReplicaSet.yaml
+# or kubectl scale --replicas=12 replicaset bharathapp-replicationset
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: bharathapp-replicationset
+  labels:
+    app: bharathapp
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: bharaths-pod
+      labels:
+        app: bharathapp
+        type: front-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+  replicas: 6
+  selector:
+    matchLabels:
+      type: front-end
+
