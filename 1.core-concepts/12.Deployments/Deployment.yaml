@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bharaths-deployment
+  labels:
+    app: bharaths-app
+    type: frontend
+spec:
+  template:
+    metadata:
+      name: bharaths-deployment
+      labels:
+        app: bharaths-app
+        type: frontend
+    spec:
+      containers:
+        - name: nginx-web
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: frontend
