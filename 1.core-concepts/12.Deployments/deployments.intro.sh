@@ -3,6 +3,7 @@ seamlessly using rolling updates, undo changes, and pause and resume changes as 
 
 The API yaml file is exactly same as ReplicaSet
 
+
 ReplicaSet == Deployment
 ------------------------->
 
@@ -31,3 +32,24 @@ spec:
   selector:
     matchLabels:
       type: front-end
+
+
+bharathdasaraju@MacBook-Pro 12.Deployments (master) $ kubectl apply -f  Deployment.yaml
+deployment.apps/bharaths-deployment created
+bharathdasaraju@MacBook-Pro 12.Deployments (master) $ kubectl get all
+NAME                                      READY   STATUS              RESTARTS   AGE
+pod/bharaths-deployment-f7dfc67b8-6j865   0/1     ContainerCreating   0          6s
+pod/bharaths-deployment-f7dfc67b8-6lzqj   0/1     ContainerCreating   0          6s
+pod/bharaths-deployment-f7dfc67b8-96s2z   0/1     ContainerCreating   0          6s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   31d
+
+
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/bharaths-deployment   0/3     3            0           6s
+
+NAME                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/bharaths-deployment-f7dfc67b8   3         3         0       6s
+
+bharathdasaraju@MacBook-Pro 12.Deployments (master) $
