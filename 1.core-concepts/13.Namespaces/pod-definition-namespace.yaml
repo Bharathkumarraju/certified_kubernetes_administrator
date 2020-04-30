@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bharath
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bhrath-nginx
+  namespace: bharath
+  labels:
+    app: nknginx
+    type: front-end
+spec:
+  containers:
+    - name: bknginx
+      image: nginx
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bharaths-deployment
+  namespace: bharath
+  labels:
+    app: nknginx
+    type: front-end
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      type: front-end
+  template:
+    metadata:
+      name: bhrath-nginx
+      namespace: bharath
+      labels:
+        app: nknginx
+        type: front-end
+    spec:
+      containers:
+        - name: bknginx
+          image: nginx
+
+
