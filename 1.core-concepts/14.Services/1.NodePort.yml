@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bharathapp-service
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80 # Optional, if you won't specify it will be same as port as below.
+      port: 80 #This is only mandatory field
+      nodePort: 30009 #Optional if we won't specify it will take any free port between 30000-32767
+  selector:
+    app: bkdeployment
+

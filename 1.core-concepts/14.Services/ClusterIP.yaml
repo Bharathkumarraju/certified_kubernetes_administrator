@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+spec:
+  type: ClusterIP #It is the default type, if we won't specify any type k8s assumes defaults as ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+
+  selector:
+    app: bharathapp
+    type: back-end
+
