@@ -1,0 +1,11 @@
+# assign a node to existing pod is to create binding object and send a POST request,
+# to the  binding API thus mimicking what the actual scheduler does. in the binding object you specify
+# the name of the node as a target as below
+apiVersion: v1
+kind: Binding
+metadata:
+  name: nginx
+target:
+  apiVersion: v1
+  kind: Node
+  name: node02
