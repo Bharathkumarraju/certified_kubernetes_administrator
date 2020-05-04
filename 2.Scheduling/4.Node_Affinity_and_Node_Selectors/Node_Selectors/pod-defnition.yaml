@@ -1,0 +1,11 @@
+--- # $ kubectl label nodes node-1 size=large
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: data-processor
+      image: data-processor
+  nodeSelector:
+    size: large  #It is the label of the node(large node)
