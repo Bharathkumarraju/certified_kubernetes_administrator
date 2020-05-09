@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl
+  namespace: kube-public
+spec:
+  containers:
+    - command:
+        - sleep
+        - "5000"
+      image: byrnedo/alpine-curl:latest
+
