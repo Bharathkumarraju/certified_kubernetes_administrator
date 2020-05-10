@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: application-config
+data:
+  APP_COLOR: red
+  APP_NAME: web
+  APP_ENV: prod
+
