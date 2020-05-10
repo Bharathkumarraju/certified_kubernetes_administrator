@@ -12,6 +12,8 @@ spec:
         - name: APP_COLOR
           value: pink
         - name: APP_NAME
-          valueFrom: We can specify value from the kubernetes object called ConfigMap
+          valueFrom:
+             configMapKeyRef: We can specify value from the kubernetes object called ConfigMap
         - name: APP_FEATURE
-          valueFrom: we can specify value from the kubernetes object called Secrets
+          valueFrom:
+            secretKeyRef: we can specify value from the kubernetes object called Secrets
