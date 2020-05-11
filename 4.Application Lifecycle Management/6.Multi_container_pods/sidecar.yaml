@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-05-10T23:51:00Z"
+  labels:
+    name: app
+  name: app
+  namespace: elastic-stack
+  resourceVersion: "648"
+  selfLink: /api/v1/namespaces/elastic-stack/pods/app
+  uid: 114da3f0-6b0c-42e7-9557-585bca807593
+spec:
+  containers:
+    - image: kodekloud/event-simulator
+      imagePullPolicy: Always
+      name: app
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+        - mountPath: /log
+          name: log-volume
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: default-token-cb2ht
+          readOnly: true
+    - image: kodekloud/filebeat-configured
+      name: sidecar
+      volumeMounts:
+        - mountPath: /var/log/event-simulator/
+          name: log-volume
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: node01
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  volumes:
+    - hostPath:
+        path: /var/log/webapp
+        type: DirectoryOrCreate
+      name: log-volume
+    - name: default-token-cb2ht
+      secret:
+        defaultMode: 420
+        secretName: default-token-cb2ht
