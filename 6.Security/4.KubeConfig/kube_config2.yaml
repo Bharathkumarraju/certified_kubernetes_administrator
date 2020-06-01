@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Config
+
+clusters:
+- name: production
+  cluster:
+    certificate-authority: ca.crt
+    server: https://172.17.0.51:6443
+
+contexts:
+- name: admin@production
+  context:
+    cluster: production
+    user: admin
+    namespace: finance
+
+users:
+- name: admin
+  user:
+    client-certificate: admin.crt
+    client-key: admin.key
