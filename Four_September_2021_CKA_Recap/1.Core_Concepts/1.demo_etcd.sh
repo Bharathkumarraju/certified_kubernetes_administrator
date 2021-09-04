@@ -1,3 +1,17 @@
+If you run  minikube in your local macbook it emulates a docker as below in your local box.
+
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ docker ps
+CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS              PORTS                                                                                                                                  NAMES
+8271f1c15e16        gcr.io/k8s-minikube/kicbase:v0.0.22   "/usr/local/bin/entr…"   About an hour ago   Up About an hour    127.0.0.1:32777->22/tcp, 127.0.0.1:32776->2376/tcp, 127.0.0.1:32775->5000/tcp, 127.0.0.1:32774->8443/tcp, 127.0.0.1:32773->32443/tcp   minikube
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ 
+
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ curl localhost:32774
+Client sent an HTTP request to an HTTPS server.
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ 
+
+
+
+
 bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ telnet localhost 2379
 Trying ::1...
 Connection failed: Connection refused
