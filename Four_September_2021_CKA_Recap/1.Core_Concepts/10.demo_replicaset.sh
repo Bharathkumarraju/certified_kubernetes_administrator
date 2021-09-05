@@ -60,3 +60,51 @@ bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $
 
 
 
+Number of ways to scale the replicas:
+---------------------------------------------------->
+1. Update replicaset-definition.yaml as replicas: 4 and run below -->
+1. kubectl replace -f replicaset-definition.yaml
+2. kubectl scale --replicas=5 -f replicaset-definition.yaml
+3. kubectl scale --replicas=6 replicaset bkapp-replicaset
+
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl replace -f replicaset-definition.yaml 
+replicaset.apps/bkapp-replicaset replaced
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
+
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+bkapp-replicaset-5hnxx   1/1     Running   0          157m
+bkapp-replicaset-bghvv   1/1     Running   0          20s
+bkapp-replicaset-hbtkt   1/1     Running   0          157m
+bkapp-replicaset-zkcdg   1/1     Running   0          157m
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
+
+
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl scale --replicas=5 -f replicaset-definition.yaml 
+replicaset.apps/bkapp-replicaset scaled
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl edit rs bkapp-replicaset
+Edit cancelled, no changes made.
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+bkapp-replicaset-5hnxx   1/1     Running   0          160m
+bkapp-replicaset-bghvv   1/1     Running   0          3m26s
+bkapp-replicaset-hbtkt   1/1     Running   0          160m
+bkapp-replicaset-nfhwp   1/1     Running   0          58s
+bkapp-replicaset-zkcdg   1/1     Running   0          160m
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
+
+
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl scale --replicas=6 replicaset bkapp-replicaset
+replicaset.apps/bkapp-replicaset scaled
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+bkapp-replicaset-5hnxx   1/1     Running   0          167m
+bkapp-replicaset-7pq6p   1/1     Running   0          6m31s
+bkapp-replicaset-bghvv   1/1     Running   0          10m
+bkapp-replicaset-hbtkt   1/1     Running   0          167m
+bkapp-replicaset-nfhwp   1/1     Running   0          8m
+bkapp-replicaset-zkcdg   1/1     Running   0          167m
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $
+
+
+
