@@ -85,3 +85,10 @@ Events:
   Normal  Created    7m45s  kubelet            Created container nginx
   Normal  Started    7m45s  kubelet            Started container nginx
 bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ 
+
+
+
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ kubectl run bknginx --image=nginx --dry-run=client
+pod/bknginx created (dry run)
+bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ 
+

@@ -3,6 +3,27 @@ CONTAINER ID        IMAGE                                 COMMAND               
 8271f1c15e16        gcr.io/k8s-minikube/kicbase:v0.0.22   "/usr/local/bin/entr…"   18 hours ago        Up 18 hours         127.0.0.1:32777->22/tcp, 127.0.0.1:32776->2376/tcp, 127.0.0.1:32775->5000/tcp, 127.0.0.1:32774->8443/tcp, 127.0.0.1:32773->32443/tcp   minikube
 bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ 
 
+
+
+root@minikube:/# netstat -plant | grep -i "LISTEN"
+tcp        0      0 127.0.0.1:10257         0.0.0.0:*               LISTEN      1867/kube-controlle 
+tcp        0      0 127.0.0.1:10259         0.0.0.0:*               LISTEN      1878/kube-scheduler 
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      198/sshd: /usr/sbin 
+tcp        0      0 127.0.0.11:37989        0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:10248         0.0.0.0:*               LISTEN      852/kubelet         
+tcp        0      0 127.0.0.1:36617         0.0.0.0:*               LISTEN      852/kubelet         
+tcp        0      0 192.168.49.2:2379       0.0.0.0:*               LISTEN      1708/etcd           
+tcp        0      0 127.0.0.1:2379          0.0.0.0:*               LISTEN      1708/etcd           
+tcp        0      0 192.168.49.2:2380       0.0.0.0:*               LISTEN      1708/etcd           
+tcp        0      0 127.0.0.1:2381          0.0.0.0:*               LISTEN      1708/etcd           
+tcp6       0      0 :::10256                :::*                    LISTEN      2898/kube-proxy     
+tcp6       0      0 :::22                   :::*                    LISTEN      198/sshd: /usr/sbin 
+tcp6       0      0 :::8443                 :::*                    LISTEN      1767/kube-apiserver 
+tcp6       0      0 :::2376                 :::*                    LISTEN      211/dockerd         
+tcp6       0      0 :::10249                :::*                    LISTEN      2898/kube-proxy     
+tcp6       0      0 :::10250                :::*                    LISTEN      852/kubelet         
+root@minikube:/# 
+
 Master-Components:
 -------------------------------->
 
