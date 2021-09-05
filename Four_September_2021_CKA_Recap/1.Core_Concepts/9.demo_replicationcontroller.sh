@@ -45,6 +45,13 @@ bkapp-rc   3         3         3       105s
 bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
 
 
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME             READY   STATUS    RESTARTS   AGE
+bkapp-rc-8l5p4   1/1     Running   0          6m13s
+bkapp-rc-ksd2j   1/1     Running   0          6m14s
+bkapp-rc-zlxcw   1/1     Running   0          6m14s
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
+
 
 
 

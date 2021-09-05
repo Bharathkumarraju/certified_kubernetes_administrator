@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: bkapp-replicaset
+  labels:
+    app: bkapp
+    type: front-end
+spec:
+  template:
+    metadata:
+      labels:
+        app: bkapp
+        type: front-end
+      name: bkapp-pod
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-container
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+
+    
