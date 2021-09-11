@@ -1,22 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  bkapp-deployment
   labels:
-    app:  bkapp
+    run: nginx
     type: front-end
+  name: nginx-deployment
 spec:
-  replicas: 3
+  template:
+    metadata:
+      labels:
+        run: nginx
+        type: front-end 
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
   selector:
     matchLabels:
       type: front-end
-  template:
-    metadata:
-      name: bkapp-pod
-      labels:
-        app: bkapp
-        type: front-end
-    spec:
-      containers:
-        - name: nginx
-          image: nginx
+  replicas: 3
