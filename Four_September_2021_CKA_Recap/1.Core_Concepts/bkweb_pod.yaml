@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: bkweb-app
+    type: front-end
+  name: bkweb
+spec:
+  containers:
+  - image: nginx
+    name: bkweb
