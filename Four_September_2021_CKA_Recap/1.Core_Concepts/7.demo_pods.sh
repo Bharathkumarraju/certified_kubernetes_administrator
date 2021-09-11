@@ -92,3 +92,24 @@ bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ kubect
 pod/bknginx created (dry run)
 bharathdasaraju@MacBook-Pro certified_kubernetes_administrator (master) $ 
 
+
+
+
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl run nginx --image=nginx --dry-run=client -o yaml > pods_recap.yaml
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl apply -f pods_recap.yaml 
+pod/nginx created
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   0/1     ContainerCreating   0          15s
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   0/1     ContainerCreating   0          17s
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get pods
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          25s
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
+
+
+
+
+

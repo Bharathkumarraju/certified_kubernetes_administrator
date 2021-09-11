@@ -107,4 +107,21 @@ bkapp-replicaset-zkcdg   1/1     Running   0          167m
 bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $
 
 
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl create -f replicaset_recap.yaml 
+replicaset.apps/nginx-rs created
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
+
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ kubectl get all
+NAME                 READY   STATUS    RESTARTS   AGE
+pod/nginx            1/1     Running   0          7m13s
+pod/nginx-rs-fxjkk   1/1     Running   0          34s
+pod/nginx-rs-mkkqc   1/1     Running   0          34s
+pod/nginx-rs-tfnjq   1/1     Running   0          34s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   6d17h
+
+NAME                       DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-rs   3         3         3       34s
+bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $ 
 
