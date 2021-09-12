@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  back-end
+spec:
+  selector:
+    app: bkapp2
+    type: back-end
+  type:  ClusterIP  # Its default type if we do not specify type it automatically assigned as ClusterIP only.
+  ports:
+  - name:  back-end-port
+    port:  80
+    targetPort:  8080
