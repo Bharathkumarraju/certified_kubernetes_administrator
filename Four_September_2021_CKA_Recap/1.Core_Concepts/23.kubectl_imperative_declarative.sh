@@ -15,4 +15,5 @@ bharathdasaraju@MacBook-Pro 1.Core_Concepts (master) $
 Declarative:
 -------------------------------------------------------------------------->
 
-kubectl apply -f /path/
+kubectl apply -f /path/to_config/files
+
