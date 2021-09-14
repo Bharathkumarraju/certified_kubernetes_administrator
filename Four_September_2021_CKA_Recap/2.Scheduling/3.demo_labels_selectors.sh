@@ -99,3 +99,39 @@ bharathdasaraju@MacBook-Pro 2.Scheduling %
 ReplicaSet labels are two types 
 1. one is replicaset labels.
 2. another one is pod labels.
+
+
+bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl get rs
+NAME         DESIRED   CURRENT   READY   AGE
+sample-web   3         3         3       4m6s
+bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl describe rs sample-web
+Name:         sample-web
+Namespace:    default
+Selector:     app=App1
+Labels:       app=App1
+              function=Front-end
+Annotations:  <none>
+Replicas:     3 current / 3 desired
+Pods Status:  3 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=App1
+           function=Front-end
+  Containers:
+   nginx-web:
+    Image:        nginx
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age    From                   Message
+  ----    ------            ----   ----                   -------
+  Normal  SuccessfulCreate  4m20s  replicaset-controller  Created pod: sample-web-sdfsx
+  Normal  SuccessfulCreate  4m20s  replicaset-controller  Created pod: sample-web-x648g
+bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl get rs sample-web -o wide
+NAME         DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES   SELECTOR
+sample-web   3         3         3       4m40s   nginx-web    nginx    app=App1
+bharathdasaraju@MacBook-Pro 2.Scheduling % 
+
+
