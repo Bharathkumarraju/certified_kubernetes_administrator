@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: sample-web
+  labels:                     # ReplicaSet labels
+    app: App1                 # ReplicaSet labels
+    function: Front-end       # ReplicaSet labels
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: App1
+  template:
+    metadata:
+      labels:                   # Pod labels
+        app: App1               # Pod labels
+        function: Front-end     # Pod labels
+    spec:
+      containers:
+      - name: nginx-web
+        image: nginx
+

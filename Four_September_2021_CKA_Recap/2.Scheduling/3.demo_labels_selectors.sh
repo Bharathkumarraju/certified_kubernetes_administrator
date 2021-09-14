@@ -88,3 +88,14 @@ Events:
   Normal  Started    21s   kubelet            Started container nginx
 bharathdasaraju@MacBook-Pro 2.Scheduling %
 
+how to select specific pods 
+
+bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl get pods --selector app=App1
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          2m19s
+bharathdasaraju@MacBook-Pro 2.Scheduling % 
+
+
+ReplicaSet labels are two types 
+1. one is replicaset labels.
+2. another one is pod labels.
