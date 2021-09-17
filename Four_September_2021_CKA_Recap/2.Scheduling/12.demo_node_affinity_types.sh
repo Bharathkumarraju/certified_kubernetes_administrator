@@ -1,0 +1,7 @@
+Available:
+requiredDuringSchedulingIgnoredDuringExecution
+preferredDuringSchedulingIgnoredDuringExecution
+
+Planned:
+requiredDuringSchedulingRequiredDuringExecution
+preferredDuringSchedulingRequiredDuringExecution
