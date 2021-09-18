@@ -1,6 +1,6 @@
 Resource Requests:
 
-minimum memory,cpu resources can be set by 
+minimum memory,cpu resources utilized by container can be set by 
 
 requests:
   memory: "1Gi"
@@ -15,6 +15,7 @@ limits:
   memory: "2Gi"
   cpu: 2
 
+if container uses more than specified limits for cpu and memory pod will get terminated
 
 
 bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl apply -f pod_with_resource_limits.yaml
