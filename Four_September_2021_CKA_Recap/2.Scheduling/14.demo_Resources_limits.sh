@@ -16,7 +16,11 @@ limits:
   cpu: 2
 
 
-by default if we wont specify the 
+
 bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl apply -f pod_with_resource_limits.yaml
 pod/nginx18 created
+bharathdasaraju@MacBook-Pro 2.Scheduling % 
+
+bharathdasaraju@MacBook-Pro 2.Scheduling % kubectl apply -f pod_with_resource_limits.yaml 
+pod/nginx created
 bharathdasaraju@MacBook-Pro 2.Scheduling % 
