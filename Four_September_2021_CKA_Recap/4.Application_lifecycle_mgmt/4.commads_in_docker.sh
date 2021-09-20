@@ -65,6 +65,20 @@ CONTAINER ID        IMAGE                  COMMAND             CREATED          
 8bf99af8cc28        docker-sleeper-entry   "sleep 30"          5 seconds ago       Up 4 seconds                            practical_keller
 MacBook-Pro:4.Application_lifecycle_mgmt bharathdasaraju$ 
 
+MacBook-Pro:4.Application_lifecycle_mgmt bharathdasaraju$ docker build -t ubuntu-sleeper-entry-cmd .
+Sending build context to Docker daemon   16.9kB
+Step 1/3 : FROM ubuntu
+ ---> 1318b700e415
+Step 2/3 : ENTRYPOINT [ "sleep" ]
+ ---> Using cache
+ ---> a0374708bc2d
+Step 3/3 : CMD ["5"]
+ ---> Using cache
+ ---> eb7d440ee852
+Successfully built eb7d440ee852
+Successfully tagged ubuntu-sleeper-entry-cmd:latest
+MacBook-Pro:4.Application_lifecycle_mgmt bharathdasaraju$ 
+
 
 MacBook-Pro:4.Application_lifecycle_mgmt bharathdasaraju$ docker run ubuntu-sleeper-entry-cmd
 MacBook-Pro:4.Application_lifecycle_mgmt bharathdasaraju$ 
