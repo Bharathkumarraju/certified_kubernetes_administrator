@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: ubuntu-sleeper
+  name: ubuntu-sleeper
+spec:
+  containers:
+  - image: ubuntu-sleeper-entry-cmd
+    name: ubuntu-sleeper
+    command: ["sleep2.0"]  # Overwrites the ENTRYPOINT filed in docker
+    args: ["35"]  #Overwrites the CMD field in docker
