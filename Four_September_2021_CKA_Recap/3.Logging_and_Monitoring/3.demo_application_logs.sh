@@ -21,3 +21,28 @@ Status: Downloaded newer image for kodekloud/event-simulator:latest
     time.sleep(1)
 KeyboardInterrupt
 bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring %
+
+
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % docker run -d kodekloud/event-simulator
+8fa3501504271d3a8fc28debbff4d569ae09772fdc2565fa56aee770220b687e
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % docker logs -f 8fa
+[2021-09-20 03:06:53,275] INFO in event-simulator: USER1 logged out
+[2021-09-20 03:06:54,277] INFO in event-simulator: USER2 logged in
+[2021-09-20 03:06:55,278] INFO in event-simulator: USER2 logged out
+[2021-09-20 03:06:56,280] INFO in event-simulator: USER3 logged in
+[2021-09-20 03:06:57,282] INFO in event-simulator: USER4 is viewing page3
+[2021-09-20 03:06:58,249] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2021-09-20 03:06:58,250] INFO in event-simulator: USER3 is viewing page3
+[2021-09-20 03:06:59,251] INFO in event-simulator: USER4 is viewing page2
+[2021-09-20 03:07:00,254] INFO in event-simulator: USER3 is viewing page1
+[2021-09-20 03:07:01,255] WARNING in event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+[2021-09-20 03:07:01,256] INFO in event-simulator: USER1 is viewing page2
+[2021-09-20 03:07:02,257] INFO in event-simulator: USER2 is viewing page2
+[2021-09-20 03:07:03,259] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2021-09-20 03:07:03,261] INFO in event-simulator: USER3 logged in
+[2021-09-20 03:07:04,263] INFO in event-simulator: USER3 logged in
+[2021-09-20 03:07:05,265] INFO in event-simulator: USER4 is viewing page2
+[2021-09-20 03:07:06,267] INFO in event-simulator: USER1 is viewing page2
+[2021-09-20 03:07:07,271] INFO in event-simulator: USER3 is viewing page2
+^C%                                                                                                                                                                                                                                      
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % 
