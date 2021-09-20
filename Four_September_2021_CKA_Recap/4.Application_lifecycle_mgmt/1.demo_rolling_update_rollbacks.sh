@@ -17,5 +17,3 @@ Whenever the rolling update happens the 25% pods are unavailable that means 1 po
 rollback:
 -------------->
 kubectl rollout undo deploy webapp
-
-
