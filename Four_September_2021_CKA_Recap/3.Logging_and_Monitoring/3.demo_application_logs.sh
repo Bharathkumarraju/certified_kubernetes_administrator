@@ -46,3 +46,29 @@ bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % docker logs -f 8fa
 [2021-09-20 03:07:07,271] INFO in event-simulator: USER3 is viewing page2
 ^C%                                                                                                                                                                                                                                      
 bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % 
+
+
+
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % kubectl run logs-events --image=kodekloud/event-simulator --dry-run=client -o yaml > event-simulator.yaml  
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % kubectl create -f event-simulator.yaml 
+pod/logs-events created
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % 
+
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % kubectl logs logs-events -f
+[2021-09-20 03:18:31,489] INFO in event-simulator: USER3 logged out
+[2021-09-20 03:18:32,493] INFO in event-simulator: USER1 is viewing page1
+[2021-09-20 03:18:33,494] INFO in event-simulator: USER1 is viewing page1
+[2021-09-20 03:18:34,495] INFO in event-simulator: USER2 is viewing page1
+[2021-09-20 03:18:35,495] INFO in event-simulator: USER3 logged out
+[2021-09-20 03:18:36,497] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2021-09-20 03:18:36,497] INFO in event-simulator: USER1 is viewing page2
+[2021-09-20 03:18:37,499] INFO in event-simulator: USER4 is viewing page3
+[2021-09-20 03:18:38,500] INFO in event-simulator: USER4 is viewing page3
+[2021-09-20 03:18:39,501] WARNING in event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+[2021-09-20 03:18:39,501] INFO in event-simulator: USER2 is viewing page2
+[2021-09-20 03:18:40,502] INFO in event-simulator: USER1 logged in
+[2021-09-20 03:18:41,502] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2021-09-20 03:18:41,503] INFO in event-simulator: USER4 is viewing page2
+[2021-09-20 03:18:42,503] INFO in event-simulator: USER4 is viewing page3
+^C
+bharathdasaraju@MacBook-Pro 3.Logging_and_Monitoring % 
