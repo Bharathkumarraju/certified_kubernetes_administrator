@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+data:
+  td-agent.conf: |
+    <match td.*.*>
+      @type tdlog
+      apikey YOUR_API_KEY
+
+      auto_create_table
+      buffer_type file
+      buffer_path /var/log/td-agent/buffer/td
+
+      <secondary>
+        @type file
+        path /var/log/td-agent/failed_records
+      </secondary>
+    </match>
+
+    <match debug.**>
+      @type stdout
+    </match>
+
+    <match log.*.*>
+      @type stdout
+    </match>
+
+    <source>
+      @type forward
+    </source>
+
+    <source>
+      @type http
+      port 8888
+    </source>
+
+    <source>
+      @type debug_agent
+      bind 127.0.0.1
+      port 24230
+    </source>

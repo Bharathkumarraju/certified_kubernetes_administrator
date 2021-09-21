@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: fluent-ui-service
+spec:
+  selector:
+    name: fluent-ui
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080
+    name: ui
+  - port: 24224
+    targetPort: 24224
+    nodePort: 30224
+    name: receiver
