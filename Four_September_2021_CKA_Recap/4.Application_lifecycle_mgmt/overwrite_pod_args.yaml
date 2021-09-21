@@ -10,4 +10,3 @@ spec:
     name: webapp-green
     args: ["--color", "green"]
 
-status: {}

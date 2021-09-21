@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    ports:
+    - containerPort: 80
+    envFrom:                # can use entire configmap like this
+      - configMapRef:
+          name: bkconfigmap
+    env:                  # can specify the single key from  the configMap
+      - name: APP_COLOR
+        valueFrom:
+          configMapKeyRef:
+            name: bkconfigmap
+            key: APP_COLOR
+    volumes:               # Can use configMap as a Separate Volume as well
+      - name:  app-config-volume
+        configMap:
+          name: bkconfigmap
+        

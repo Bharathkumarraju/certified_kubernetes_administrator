@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bkconfigmap
+  labels:
+    app: bkapplication
+data:
+  APP_COLOR: pink
+  APP_BUID: dev
+  APP_VERSION: "3.0"

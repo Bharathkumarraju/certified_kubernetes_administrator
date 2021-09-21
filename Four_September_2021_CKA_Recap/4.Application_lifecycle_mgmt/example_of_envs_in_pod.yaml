@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: webapp-green
+  name: webapp-green
+spec:
+  containers:
+  - image: kodekloud/webapp-color
+    name: webapp-green
+    env:
+     - name: APP_COLOR
+       value: pink
+     - name: APP_VERSION
+       valueFrom:
+         configMapKeyRef:
+     - name: APP_BUILD
+       valueFrom:
+         secretKeyRef:
