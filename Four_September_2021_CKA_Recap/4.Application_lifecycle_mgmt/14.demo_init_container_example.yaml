@@ -16,3 +16,83 @@ spec:
   - name: init-bkdb
     image: busybox
     command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
+
+
+
+
+root@controlplane:~# kubectl edit pod red
+error: pods "red" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-phwq3.yaml"
+error: Edit cancelled, no valid changes were saved.
+root@controlplane:~# kubectl delete pod red
+pod "red" deleted
+kubectl apply -f /tmp/kubectl-edit-phwq3.yaml
+
+
+root@controlplane:~# kubectl apply -f /tmp/kubectl-edit-phwq3.yaml
+pod/red created
+root@controlplane:~# cat /tmp/kubectl-edit-phwq3.yaml
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+# pods "red" was not valid:
+# * spec.initContainers: Forbidden: pod updates may not add or remove containers
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2021-09-21T05:35:44Z"
+  name: red
+  namespace: default
+  resourceVersion: "984"
+  uid: 129100ea-eaf6-45f5-b3b1-35038703b508
+spec:
+  initContainers:
+  - name: init-busybox
+    image: busybox
+    command:
+      - sh
+      - c
+      - sleep 20
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo The app is running! && sleep 3600
+    image: busybox:1.28
+    imagePullPolicy: IfNotPresent
+    name: red-container
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-5lj6j
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: controlplane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-5lj6j
+    secret:
+      defaultMode: 420
+      secretName: default-token-5lj6j
+root@controlplane:~# 
