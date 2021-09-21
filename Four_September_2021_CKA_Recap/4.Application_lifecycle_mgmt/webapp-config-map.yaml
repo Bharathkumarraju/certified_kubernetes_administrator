@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  APP_COLOR: darkblue
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: webapp-config-map
