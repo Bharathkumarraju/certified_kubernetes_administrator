@@ -100,3 +100,14 @@ You can then have the public key of your internal CA server installed on all you
 within your organization.
 
 
+usually public keys ends with "*.crt" (or) "*.pem"
+server.crt
+server.pem
+client.crt 
+client.pem 
+
+usually private keys ends with "*.key" (or) "*-key.pem"
+server.key
+server-key.pem 
+client.key 
+client-key.pem 
