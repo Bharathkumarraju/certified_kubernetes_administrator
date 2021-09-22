@@ -7,5 +7,5 @@
 7. Authorization
 8. RBAC
 9. CLuster Roles
-10. Image Security
+10. Image Security - Security Contexts
 11. Network Policies
