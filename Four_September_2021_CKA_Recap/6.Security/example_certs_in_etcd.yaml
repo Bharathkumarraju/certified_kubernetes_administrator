@@ -1,0 +1,38 @@
+#Found in the path /etc/kubernetes/manifests
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    component: etcd
+    tier: control-plane
+  name: etcd
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - etcd
+        - --advertise-client-urls=https://172.17.0.17:2379
+
+        - --cert-file=/path-to-certs/etcdserver.crt
+        - --key-file=/path-to-certs/etcdserver.key
+
+        - --client-cert-auth=true
+        - --data-dir=/var/lib/etcd
+        - --initial-advertise-peer-urls=https://172.17.0.17:2380
+        - --initial-cluster=master=https://172.17.0.17:2380
+        - --listen-client-urls=https://127.0.0.1:2379,https://172.17.0.17:2379
+        - --listen-metrics-urls=http://127.0.0.1:2381
+        - --listen-peer-urls=https://172.17.0.17:2380
+        - --name=master
+
+        - --peer-cert-file=/path-to-certs/etcdpeer1.crt
+
+        - --peer-client-cert-auth=true
+
+        - --peer-key-file=/path-to-certs/etcdpeer1.key
+
+        - --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+        - --snapshot-count=10000
+        - --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+      image: k8s.gcr.io/etcd:3.3.15-0
