@@ -26,11 +26,11 @@ Web servers example:
 as we did it in ssh-keygen(which creates private and public keys) we can do same for webserver TLS encryption also 
 to generate private and public key pair can use "openssl"
 
-private key(my-bank.key) creation:
+"private key(my-bank.key) creation":
 --------------------------------------->
 openssl genrsa -out my-bank.key 1024
 
-public key(mybank.pem) creation:
+"public key(mybank.pem) creation":
 -------------------------------------------------->
 openssl rsa -in my-bank.key -pubout > mybank.pem
 
