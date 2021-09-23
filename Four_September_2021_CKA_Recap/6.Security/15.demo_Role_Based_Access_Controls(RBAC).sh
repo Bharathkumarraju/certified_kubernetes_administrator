@@ -80,3 +80,58 @@ where as
 
 clusterrole and clusterrolebinding falls under the scope of the cluster.
 
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl get roles
+NAME        CREATED AT
+developer   2021-09-23T07:32:54Z
+MacBook-Pro:6.Security bharathdasaraju$ kubectl get rolebindings
+NAME                        ROLE             AGE
+devuser-developer-binding   Role/developer   4m25s
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+how to check can i have acces to particular resource in kubernetes:
+--------------------------------------------------------------------------------->
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i create deployments
+yes
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i delete nodes
+Warning: resource 'nodes' is not namespace scoped
+yes
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i delete nodes --as dev-user
+Warning: resource 'nodes' is not namespace scoped
+no
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i delete secrets --as dev-user
+no
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i create secrets --as dev-user
+no
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i create services --as dev-user
+no
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i create pods --as dev-user
+yes
+MacBook-Pro:6.Security bharathdasaraju$ kubectl auth can-i create configmaps --as dev-user
+no
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl create role developer_granualr --verb=get --verb=list --verb=watch --resource=pods --dry-run=client -o yaml > deveoper_granualr-role.yaml
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+we can also use "ResourceNames" to give access to certain pods alone.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer_granualr
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+  resourceNames: ["blue", "orange"]
