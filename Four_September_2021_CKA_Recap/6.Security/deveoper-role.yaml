@@ -3,7 +3,7 @@ kind: Role
 metadata:
   name: developer
 rules:
-- apiGroups: [""]
+- apiGroups: [""]  # for core API group its empty for the named API group need to specify the name
   resources: ["pods"]
   verbs:
   - get
@@ -12,3 +12,6 @@ rules:
   - create
   - update 
   - delete 
+- apiGroups: [""]
+  resources: ["ConfigMaP"]
+  verbs: ["create", "delete"]
