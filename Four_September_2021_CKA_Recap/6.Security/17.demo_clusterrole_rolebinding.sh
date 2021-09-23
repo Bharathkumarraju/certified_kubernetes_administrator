@@ -77,3 +77,75 @@ tokenreviews                                   authentication.k8s.io          fa
 validatingwebhookconfigurations                admissionregistration.k8s.io   false        ValidatingWebhookConfiguration
 volumeattachments                              storage.k8s.io                 false        VolumeAttachment
 MacBook-Pro:6.Security bharathdasaraju$ 
+
+how to authorize cluster wide resources in k8s
+------------------------------------------------->
+We can use 1. clusterroles
+           2. clusterrolebindings
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl create clusterrole cluster-admin --verb=list --verb=get --verb=create --resource=nodes --dry-run=client -o yaml 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: cluster-admin
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - list
+  - get
+  - create
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl apply -f clusterrole-clusterAdmin.yaml 
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+clusterrole.rbac.authorization.k8s.io/cluster-admin configured
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl get clusterrole cluster-admin
+NAME            CREATED AT
+cluster-admin   2021-09-04T06:52:21Z
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl create clusterrolebinding cluster-admin-role-binding --clusterrole=cluster-admin --user=admin-user1 --dry-run=client -o yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  name: cluster-admin-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: admin-user1
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl create clusterrolebinding cluster-admin-role-binding --clusterrole=cluster-admin --user=admin-user1 --dry-run=client -o yaml > clusteradmin-clusterrolebinding.yaml
+MacBook-Pro:6.Security bharathdasaraju$ kubectl apply -f clusteradmin-clusterrolebinding.yaml
+clusterrolebinding.rbac.authorization.k8s.io/cluster-admin-role-binding created
+MacBook-Pro:6.Security bharathdasaraju$ 
+
+MacBook-Pro:6.Security bharathdasaraju$ kubectl describe clusterrolebinding cluster-admin-role-binding
+Name:         cluster-admin-role-binding
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  ClusterRole
+  Name:  cluster-admin
+Subjects:
+  Kind  Name         Namespace
+  ----  ----         ---------
+  User  admin-user1  
+MacBook-Pro:6.Security bharathdasaraju$ 
