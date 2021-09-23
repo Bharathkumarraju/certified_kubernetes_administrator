@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Config 
+
+current-context: dev-user@google
+
+clusters:
+- name: my-kube-play
+- name: development
+- name: production
+- name: staging
+contexts:
+- name: my-kube-admin@my-kube-play
+- name: dev-user@google
+- name: prod-user@production
+- name: admin@development
+users:
+- name: my-kube-admin
+- name: admin 
+- name: dev-user 
+- name: prod-user 
