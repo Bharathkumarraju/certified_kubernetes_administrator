@@ -1,0 +1,37 @@
+apiversion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy 
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  
+  policyTypes:
+    - Ingress 
+    - Egress
+  ingress:
+  - from:
+     - podSelector:
+         matchLabels:
+          name: api-pod
+       namespaceSelector:
+         matchLabels:
+           name: prod
+     - ipBlock:
+         cidr: 192.168.5.10/32  # Lets say another backup server needs to connect to the API pod for the databackup purpose
+      
+    ports:
+    - protocol: TCP
+      port: 3306 
+  
+  egress:   
+    - to:
+      - ipBlock:
+          cidr: 192.168.5.10/32  #an agent from Db-pod trying to push data to the external backup server
+
+      ports:
+        - protocol: TCP
+          port: 80
+
+  
