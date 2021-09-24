@@ -1,7 +1,12 @@
 Docker Storage:
 --------------------------->
-1. Storage Drivers
-2. Volume Driver Plugins
+1. Storage Drivers  --> AUFS, ZFS, BTRFS, DEVICE MAPPER, OVERLAY, OVERLAY2
+
+2. Volume Driver Plugins: Local, Azure File Storage, Convoy, gce-docker, GlusterFS, VMware vSphere Storage, rexray
+Local is by default
+
+docker run -it \
+     --name mysql  --volume-driver rexray/ebs --mount src=ebs-vol,target=/var/lib/mysql mysql 
 
 
 Docker Storage Drivers and Filesystems:
