@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: webpod
+  name: webpod
+spec:
+  containers:
+  - command: ["sleep", "100"]
+    image: ubuntu
+    name: webpod
+    securityContext:
+      runAsUser: 1000
+      capabilities:
+        add: ["MAC_ADMIN"]
