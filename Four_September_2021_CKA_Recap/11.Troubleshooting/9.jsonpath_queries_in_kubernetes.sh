@@ -537,3 +537,272 @@ MacBook-Pro:11.Troubleshooting bharathdasaraju$ kubectl get nodes --sort-by=.sta
 NAME       STATUS   ROLES                  AGE   VERSION
 minikube   Ready    control-plane,master   25d   v1.20.2
 MacBook-Pro:11.Troubleshooting bharathdasaraju$ 
+
+Question:
+------------------------->
+
+The order of container could be different. 
+The redis-container need not be the second container all the time. 
+So, re-develop a JSON PATH query to get the restart count of redis-container, 
+but this time use a criteria/condition to get the restart count of the container with the container name redis-container
+
+Answer:
+--------------------------->
+$.status.containerStatuses[?(@.name == 'redis-container')].restartCount
+
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "name": "nginx-pod",
+    "namespace": "default"
+  },
+  "spec": {
+    "containers": [
+      {
+        "image": "nginx:alpine",
+        "name": "nginx"
+      },
+      {
+        "image": "redis:alpine",
+        "name": "redis-container"
+      }
+    ],
+    "nodeName": "node01"
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2019-06-13T05:34:09Z",
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2019-06-13T05:34:09Z",
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "containerStatuses": [
+      {
+        "image": "nginx:alpine",
+        "name": "nginx",
+        "ready": false,
+        "restartCount": 4,
+        "state": {
+          "waiting": {
+            "reason": "ContainerCreating"
+          }
+        }
+      },
+      {
+        "image": "redis:alpine",
+        "name": "redis-container",
+        "ready": false,
+        "restartCount": 2,
+        "state": {
+          "waiting": {
+            "reason": "ContainerCreating"
+          }
+        }
+      }
+    ],
+    "hostIP": "172.17.0.75",
+    "phase": "Pending",
+    "qosClass": "BestEffort",
+    "startTime": "2019-06-13T05:34:09Z"
+  }
+}
+
+------------------------------------------------------------------------------------------->
+[
+  {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "web-pod-1",
+      "namespace": "default"
+    },
+    "spec": {
+      "containers": [
+        {
+          "image": "nginx:alpine",
+          "name": "nginx"
+        }
+      ],
+      "nodeName": "node01"
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "web-pod-2",
+      "namespace": "default"
+    },
+    "spec": {
+      "containers": [
+        {
+          "image": "nginx:alpine",
+          "name": "nginx"
+        }
+      ],
+      "nodeName": "node02"
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "web-pod-3",
+      "namespace": "default"
+    },
+    "spec": {
+      "containers": [
+        {
+          "image": "nginx:alpine",
+          "name": "nginx"
+        }
+      ],
+      "nodeName": "node01"
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "web-pod-4",
+      "namespace": "default"
+    },
+    "spec": {
+      "containers": [
+        {
+          "image": "nginx:alpine",
+          "name": "nginx"
+        }
+      ],
+      "nodeName": "node01"
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "db-pod-1",
+      "namespace": "default"
+    },
+    "spec": {
+      "containers": [
+        {
+          "image": "mysql",
+          "name": "mysql"
+        }
+      ],
+      "nodeName": "node01"
+    }
+  }
+]
+
+
+Develop a JSON PATH query to get all pod names.
+
+$[*].metadata.name
+
+
+
+
+{
+  "kind": "Config",
+  "apiVersion": "v1",
+  "preferences": {},
+  "clusters": [
+    {
+      "name": "development",
+      "cluster": {
+        "server": "KUBE_ADDRESS",
+        "certificate-authority": "/etc/kubernetes/pki/ca.crt"
+      }
+    },
+    {
+      "name": "kubernetes-on-aws",
+      "cluster": {
+        "server": "KUBE_ADDRESS",
+        "certificate-authority": "/etc/kubernetes/pki/ca.crt"
+      }
+    },
+    {
+      "name": "production",
+      "cluster": {
+        "server": "KUBE_ADDRESS",
+        "certificate-authority": "/etc/kubernetes/pki/ca.crt"
+      }
+    },
+    {
+      "name": "test-cluster-1",
+      "cluster": {
+        "server": "KUBE_ADDRESS",
+        "certificate-authority": "/etc/kubernetes/pki/ca.crt"
+      }
+    }
+  ],
+  "users": [
+    {
+      "name": "aws-user",
+      "user": {
+        "client-certificate": "/etc/kubernetes/pki/users/aws-user/aws-user.crt",
+        "client-key": "/etc/kubernetes/pki/users/aws-user/aws-user.key"
+      }
+    },
+    {
+      "name": "dev-user",
+      "user": {
+        "client-certificate": "/etc/kubernetes/pki/users/dev-user/developer-user.crt",
+        "client-key": "/etc/kubernetes/pki/users/dev-user/dev-user.key"
+      }
+    },
+    {
+      "name": "test-user",
+      "user": {
+        "client-certificate": "/etc/kubernetes/pki/users/test-user/test-user.crt",
+        "client-key": "/etc/kubernetes/pki/users/test-user/test-user.key"
+      }
+    }
+  ],
+  "contexts": [
+    {
+      "name": "aws-user@kubernetes-on-aws",
+      "context": {
+        "cluster": "kubernetes-on-aws",
+        "user": "aws-user"
+      }
+    },
+    {
+      "name": "research",
+      "context": {
+        "cluster": "test-cluster-1",
+        "user": "dev-user"
+      }
+    },
+    {
+      "name": "test-user@development",
+      "context": {
+        "cluster": "development",
+        "user": "test-user"
+      }
+    },
+    {
+      "name": "test-user@production",
+      "context": {
+        "cluster": "production",
+        "user": "test-user"
+      }
+    }
+  ],
+  "current-context": "test-user@development"
+}
+
+
+Develop a JSON PATH query to get all user names.
+$.users[*].name
