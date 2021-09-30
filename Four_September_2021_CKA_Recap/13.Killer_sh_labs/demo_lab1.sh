@@ -1,1 +1,2 @@
-#demo_lab1
+#killer.sh lab practices
+
