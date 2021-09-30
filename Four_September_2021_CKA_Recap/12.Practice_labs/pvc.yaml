@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  volumeName: pv-1 
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Mi
