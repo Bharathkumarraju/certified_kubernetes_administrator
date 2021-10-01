@@ -288,3 +288,167 @@ MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ kubectl config use-context miniku
 Switched to context "minikube".
 MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ 
 
+
+
+
+root@minikube:/# ps aux | grep kubelet
+root        1070 13.7  4.2 1960900 87340 ?       Ssl  01:36  23:02 /var/lib/minikube/binaries/v1.20.2/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=/var/lib/kubelet/config.yaml --container-runtime=docker --hostname-override=minikube --kubeconfig=/etc/kubernetes/kubelet.conf --node-ip=192.168.49.2
+root        2158 20.1 15.8 1167116 321964 ?      Ssl  01:36  33:42 kube-apiserver --advertise-address=192.168.49.2 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/var/lib/minikube/certs/ca.crt --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota --enable-bootstrap-token-auth=true --etcd-cafile=/var/lib/minikube/certs/etcd/ca.crt --etcd-certfile=/var/lib/minikube/certs/apiserver-etcd-client.crt --etcd-keyfile=/var/lib/minikube/certs/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --insecure-port=0 --kubelet-client-certificate=/var/lib/minikube/certs/apiserver-kubelet-client.crt --kubelet-client-key=/var/lib/minikube/certs/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/var/lib/minikube/certs/front-proxy-client.crt --proxy-client-key-file=/var/lib/minikube/certs/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=8443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/var/lib/minikube/certs/sa.pub --service-account-signing-key-file=/var/lib/minikube/certs/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/var/lib/minikube/certs/apiserver.crt --tls-private-key-file=/var/lib/minikube/certs/apiserver.key
+docker      4618  1.3  2.2 745128 46468 ?        Ssl  01:37   2:15 /metrics-server --cert-dir=/tmp --secure-port=4443 --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --kubelet-use-node-status-port --metric-resolution=15s --kubelet-insecure-tls
+root       64274  0.0  0.0   3436   656 pts/1    S+   04:24   0:00 grep --color=auto kubelet
+root@minikube:/# find /etc/systemd/system/ | grep kube
+/etc/systemd/system/kubelet.service.d
+/etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+/etc/systemd/system/multi-user.target.wants/minikube-automount.service
+root@minikube:/# 
+
+
+
+# /opt/course/8/master-components.txt
+kubelet: process
+kube-apiserver: static-pod
+kube-scheduler: static-pod
+kube-scheduler-special: static-pod (status CrashLoopBackOff)
+kube-controller-manager: static-pod
+etcd: static-pod
+dns: pod coredns
+
+
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k run manual-schedule --image=httpd:2.4-alpine
+pod/manual-schedule created
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ 
+
+
+
+kill the scheduler:
+---------------------------->
+➜ root@cluster2-master1:~# cd /etc/kubernetes/manifests/
+➜ root@cluster2-master1:~# mv kube-scheduler.yaml ..
+
+
+create a pod and update the "nodeName" field to master node.
+
+
+Start the scheduler again:
+------------------------------------->
+k run manual-schedule2 --image=httpd:2.4-alpine
+
+
+
+ RBAC ServiceAccount Role RoleBinding
+ --------------------------------------------------------------------->
+Create a new ServiceAccount processor in Namespace project-hamster. Create a Role and RoleBinding, both named processor as well. 
+These should allow the new SA to only create Secrets and ConfigMaps in that Namespace.
+
+
+Role + RoleBinding (available in single Namespace, applied in single Namespace)
+ClusterRole + ClusterRoleBinding (available cluster-wide, applied cluster-wide)
+ClusterRole + RoleBinding (available cluster-wide, applied in single Namespace)
+Role + ClusterRoleBinding (NOT POSSIBLE: available in single Namespace, applied cluster-wide)
+
+
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ kubectl create namespace project-hamster
+namespace/project-hamster created
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster create sa processor
+serviceaccount/processor created
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster create role processor --verb=create --resource=secret --resource=configmap
+role.rbac.authorization.k8s.io/processor created
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster create rolebinding processor --role processor --serviceaccount project-hamster:processor
+rolebinding.rbac.authorization.k8s.io/processor created
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ 
+
+
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster describe rolebinding processor
+Name:         processor
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  Role
+  Name:  processor
+Subjects:
+  Kind            Name       Namespace
+  ----            ----       ---------
+  ServiceAccount  processor  project-hamster
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ 
+
+
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster auth can-i create configmap --as system:serviceaccount:project-hamster:processor 
+yes
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster auth can-i create secret --as system:serviceaccount:project-hamster:processor 
+yes
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster get rolebinding processor -o yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: "2021-10-01T09:05:51Z"
+  managedFields:
+  - apiVersion: rbac.authorization.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:roleRef:
+        f:apiGroup: {}
+        f:kind: {}
+        f:name: {}
+      f:subjects: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-10-01T09:05:51Z"
+  name: processor
+  namespace: project-hamster
+  resourceVersion: "241989"
+  uid: a67fd027-22db-46ac-8a12-09f17399e6db
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: processor
+subjects:
+- kind: ServiceAccount
+  name: processor
+  namespace: project-hamster
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ k -n project-hamster get role processor -o yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: "2021-10-01T09:03:06Z"
+  managedFields:
+  - apiVersion: rbac.authorization.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:rules: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-10-01T09:03:06Z"
+  name: processor
+  namespace: project-hamster
+  resourceVersion: "241874"
+  uid: f54d696e-a60b-4bb0-9ba9-56f9ec3fd91b
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  - configmaps
+  verbs:
+  - create
+MacBook-Pro:13.Killer_sh_labs bharathdasaraju$ 
+
+
+
+
+ DaemonSet on all Nodes
+ -------------------------------------------------------------->
+Use Namespace project-tiger for the following. 
+Create a DaemonSet named ds-important with image httpd:2.4-alpine and labels id=ds-important and uuid=18426a0b-5f59-4e10-923f-c0e078e82462. 
+The Pods it creates should request 10 millicore cpu and 10 megabytes memory. The Pods of that DaemonSet should run on all nodes.
+
+As of now we arent able to create a DaemonSet directly using kubectl, so we create a Deployment and just change it up.
+
+It was requested that the DaemonSet runs on all nodes, so we need to specify the toleration for this.
+cause master node has taints set on it. So we need to adhere to tolerations on pod for the master node.
+
+
+
+
+
+
+
