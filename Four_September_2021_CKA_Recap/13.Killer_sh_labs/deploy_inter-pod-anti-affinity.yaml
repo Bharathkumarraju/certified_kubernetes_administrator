@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    id: very-important
+  name: deploy-important
+  namespace: project-tiger
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      id: very-important
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        id: very-important
+    spec:
+      containers:
+      - image: nginx:1.17.6-alpine
+        name: nginx
+      - image: kubernetes/pause
+        name: container2
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: id
+                operator: In
+                values:
+                - very-important
+            topologyKey: topology.kubernetes.io/hostname

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: use-my-shiny-scheduler
+  name: use-my-shiny-scheduler
+spec:
+  schedulerName: my-shiny-scheduler
+  containers:
+  - image: httpd:2.4-alpine
+    name: use-my-shiny-scheduler
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
