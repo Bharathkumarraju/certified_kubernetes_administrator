@@ -14,3 +14,12 @@ https://www.perlego.com/book/2035199/kubectl-commandline-kubernetes-in-a-nutshel
 ## killer.sh labs
 
 https://killer.sh/cka
+
+
+## CICD pipline
+
+* `1. create terraform remote state in s3`
+
+https://github.com/Bharathkumarraju/certified_kubernetes_administrator/runs/3780671619?check_suite_focus=true
+
+* `2.create s3 static website adnd upload docs `
