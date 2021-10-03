@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "asia-southeast-1"
+  region = "ap-southeast-1"
 }
 
 resource "aws_s3_bucket" "bharath_tf_state_store" {
