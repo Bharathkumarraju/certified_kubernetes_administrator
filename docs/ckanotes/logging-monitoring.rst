@@ -2,22 +2,26 @@
 Logging and Monitoring
 ===========================
 
-Monitorclustercomponents:
+Monitorclustercomponents
+
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/1.demo_monitor_cluster_components.sh
   :language: bash
   :caption: Monitorclustercomponents
 
-Monitorclustercomponentslabs:
+Monitorclustercomponentslabs
+
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/2.demo_monitor_k8s_components_labs.sh
   :language: bash
   :caption: Monitorclustercomponentslabs
 
-applogs:
+applogs
+
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/3.demo_application_logs.sh
   :language: bash
   :caption: applogs
 
-applogslabs:
+applogslabs
+
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/4.demo_application_logs_labs.sh
   :language: bash
   :caption: applogslabs
@@ -25,10 +29,11 @@ applogslabs:
 Monitoring pod 
 ----------------
 
-podleventsimulator:
+podeventsimulator
+
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/event-simulator.yaml
   :language: yaml
-  :caption: podleventsimulator:
+  :caption: podeventsimulator:
 
 Install Metrics-Server
 --------------------------
@@ -41,6 +46,6 @@ Install Metrics-Server
     
 used below code to install metics-server in minikube
 
-metrics-server code at at `metrics-server`_.
+metrics-server code at `metrics-server`_.
 
 .. _metrics-server: https://github.com/Bharathkumarraju/certified_kubernetes_administrator/tree/master/Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/k8s_metrics-server/
