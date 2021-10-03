@@ -1,0 +1,31 @@
+--- # generate documentation for the cka notes
+
+name: ckanotes-generator
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - ckanotes-generator-*
+    paths:
+      - 'docs/**'
+jobs:
+  deploy-cka-notes-generator:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout public repo
+        uses: actions/checkout@master
+
+      - name: Run playbook to install python sphnix
+        run: |
+          ansible-playbook playbook.yml -vv  --tags="docsgen"
+        working-directory: docs
+
+      - name: compile docs to HTML
+        run: make html
+        working-directory: docs
+
+      - name: Zip up compiled html docs
+        run: tar -czf ../../../../docs/workbookdocs.tar.gz .
+        working-directory: docs/ckanotes/_build/html

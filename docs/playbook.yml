@@ -1,0 +1,17 @@
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: install packages
+      tags: docsgen
+      pip:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - boto3
+          - botocore
+          - sphinx
+          - sphinx_rtd_theme
+
+
