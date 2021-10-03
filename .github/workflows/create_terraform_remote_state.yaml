@@ -4,7 +4,7 @@ on:
     branches:
       - master
     paths:
-      - '/terraform/remote_state/**'
+      - 'terraform/remote_state/**'
 jobs:
   deploy-tf-remote-state:
     runs-on: ubuntu-latest

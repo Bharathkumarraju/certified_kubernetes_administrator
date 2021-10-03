@@ -41,3 +41,4 @@ output "bharath_dynamodb_table_name" {
   value = aws_dynamodb_table.bharaths-terraform-locks.name
   description = "The Name of the Dynamo DB table"
 }
+
