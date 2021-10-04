@@ -76,6 +76,6 @@ multicontainer_pods
 
 ingressnetworkpolicy
 
-.. literalinclude:: ../../Four_September_2021_CKA_Recap/12.Practice_labs/ingressnetworkpolicy
+.. literalinclude:: ../../Four_September_2021_CKA_Recap/12.Practice_labs/ingress-network-policy.yaml
   :language: yaml
   :caption: ingressnetworkpolicy
