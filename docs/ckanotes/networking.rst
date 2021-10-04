@@ -310,3 +310,4 @@ configure_ingress_rule
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/8.Networking/31.configure_ingress_rule_in_app-space.yaml
   :language: yaml
   :caption: configure_ingress_rule
+
