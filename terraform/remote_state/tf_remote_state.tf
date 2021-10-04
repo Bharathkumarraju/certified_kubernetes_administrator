@@ -1,9 +1,9 @@
 provider "aws" {
-  region = "ap-southeast-1"
+  region = "us-east-1"
 }
 
 resource "aws_s3_bucket" "bharath_tf_state_store" {
-  bucket = "bkrajus-test-terraform-remote-state"
+  bucket = "bkraajus-test-terraform-remote-state"
 
   # Prevent Accedental Delete of this bucket
   lifecycle {
@@ -24,7 +24,7 @@ resource "aws_s3_bucket" "bharath_tf_state_store" {
 
 resource "aws_dynamodb_table" "bharaths-terraform-locks" {
   hash_key = "LockID"
-  name = "bkrajus-test-terraform-remote-state-locks"
+  name = "bkraajus-test-terraform-remote-state-locks"
   billing_mode = "PAY_PER_REQUEST"
   attribute {
     name = "LockID"

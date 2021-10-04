@@ -22,4 +22,4 @@ https://killer.sh/cka
 
 https://github.com/Bharathkumarraju/certified_kubernetes_administrator/runs/3780671619?check_suite_focus=true
 
-* `2.create s3 static website adnd upload docs `
+* `2.create s3 static website, adnd upload docs `
