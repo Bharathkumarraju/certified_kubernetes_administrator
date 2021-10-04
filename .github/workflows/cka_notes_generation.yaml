@@ -27,5 +27,5 @@ jobs:
         working-directory: docs
 
       - name: Zip up compiled html docs
-        run: tar -czf ../../../../docs/workbookdocs.tar.gz .
+        run: tar -czf ../../../../docs/ckanotesdocs.tar.gz .
         working-directory: docs/ckanotes/_build/html
