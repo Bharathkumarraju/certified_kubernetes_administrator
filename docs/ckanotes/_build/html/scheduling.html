@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scheduling &mdash; CKA Notes  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/custom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Logging and Monitoring" href="logging-monitoring.html" />
+    <link rel="prev" title="Core Concepts" href="core-concepts.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> CKA Notes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The CKABOOK:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Core Concepts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scheduling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pods-deployments-daemonsets-with-labels-nodeselectors-taints-tolerations-affinity-antiaffinity-rules">pods/deployments/daemonsets with labels, nodeSelectors, taints/tolerations, affinity/antiaffinity rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logging-monitoring.html">Logging and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="application-lifecycle-management.html">Application lifecycle management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-maintenance.html">Cluster Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-k8s.html">Design Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install-k8s-kubeadm.html">Install Kubernetes with kubeadm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">troubleshooting in k8s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kodekloud-labs.html">kodekloud labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="killersh-labs.html">killer.sh simulator labs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CKA Notes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Scheduling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="scheduling">
+<h1>Scheduling<a class="headerlink" href="#scheduling" title="Permalink to this headline"></a></h1>
+<p>ManualScheduling</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">ManualScheduling</span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling <span class="o">(</span>master<span class="o">)</span> $ kubectl edit pod nginx <span class="p">|</span> grep -i nodename
+Vim: Warning: Output is not to a terminal
+  <span class="m">29</span>   nodeName: minikube
+
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+  Stopped                 kubectl edit pod nginx <span class="p">|</span> grep --color<span class="o">=</span>auto -i nodename
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling <span class="o">(</span>master<span class="o">)</span> $ 
+
+Need to create a binding and send POST request add that binding to pod.
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling <span class="o">(</span>master<span class="o">)</span> $ <span class="nb">read</span> <span class="p">|</span> kubectl edit pod nginx  <span class="p">|</span> grep -i node
+Vim: Warning: Output is not to a terminal
+Vim: Warning: Input is not from a terminal
+  <span class="m">29</span>   nodeName: minikube
+  <span class="m">40</span>     key: node.kubernetes.io/not-ready
+  <span class="m">44</span>     key: node.kubernetes.io/unreachable
+^C
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling <span class="o">(</span>master<span class="o">)</span> $ 
+</pre></div>
+</div>
+</div>
+<p>ManualSchedulingLabs</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">ManualSchedulingLabs</span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# cat nginx.yaml 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  -  image: nginx
+     name: nginx
+
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl get nodes -o wide
+NAME           STATUS   ROLES                  AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+controlplane   Ready    control-plane,master   3m11s   v1.20.0   <span class="m">10</span>.60.136.3   &lt;none&gt;        Ubuntu <span class="m">18</span>.04.5 LTS   <span class="m">5</span>.4.0-1052-gcp   docker://19.3.0
+node01         Ready    &lt;none&gt;                 2m10s   v1.20.0   <span class="m">10</span>.60.136.6   &lt;none&gt;        Ubuntu <span class="m">18</span>.04.5 LTS   <span class="m">5</span>.4.0-1052-gcp   docker://19.3.0
+root@controlplane:~# 
+
+root@controlplane:~# kubectl apply -f nginx.yaml 
+pod/nginx created
+root@controlplane:~# kubectl get pods -o wide
+NAME    READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
+nginx   <span class="m">0</span>/1     Pending   <span class="m">0</span>          6s    &lt;none&gt;   &lt;none&gt;   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# 
+
+
+
+root@controlplane:~# kubectl get cs
+Warning: v1 ComponentStatus is deprecated <span class="k">in</span> v1.19+
+NAME                 STATUS      MESSAGE                                                                                       ERROR
+scheduler            Unhealthy   Get <span class="s2">&quot;http://127.0.0.1:10251/healthz&quot;</span>: dial tcp <span class="m">127</span>.0.0.1:10251: connect: connection refused   
+controller-manager   Unhealthy   Get <span class="s2">&quot;http://127.0.0.1:10252/healthz&quot;</span>: dial tcp <span class="m">127</span>.0.0.1:10252: connect: connection refused   
+etcd-0               Healthy     <span class="o">{</span><span class="s2">&quot;health&quot;</span>:<span class="s2">&quot;true&quot;</span><span class="o">}</span>                                                                             
+root@controlplane:~# kubectl get pods -n kube-system
+NAME                                   READY   STATUS    RESTARTS   AGE
+coredns-74ff55c5b-4rc9j                <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+coredns-74ff55c5b-62vqs                <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+etcd-controlplane                      <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+kube-apiserver-controlplane            <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+kube-controller-manager-controlplane   <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+kube-flannel-ds-7m6ng                  <span class="m">1</span>/1     Running   <span class="m">0</span>          22m
+kube-flannel-ds-rmh2l                  <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+kube-proxy-4fpwv                       <span class="m">1</span>/1     Running   <span class="m">0</span>          23m
+kube-proxy-wccgr                       <span class="m">1</span>/1     Running   <span class="m">0</span>          22m
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl get pods --all-namespaces <span class="p">|</span> grep -i <span class="s2">&quot;scheduler&quot;</span>
+root@controlplane:~# kubectl get pods --all-namespaces <span class="p">|</span> grep -i <span class="s2">&quot;kube-&quot;</span>
+kube-system   coredns-74ff55c5b-4rc9j                <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   coredns-74ff55c5b-62vqs                <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   etcd-controlplane                      <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   kube-apiserver-controlplane            <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   kube-controller-manager-controlplane   <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   kube-flannel-ds-7m6ng                  <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   kube-flannel-ds-rmh2l                  <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   kube-proxy-4fpwv                       <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+kube-system   kube-proxy-wccgr                       <span class="m">1</span>/1     Running   <span class="m">0</span>          29m
+root@controlplane:~#
+
+<span class="s2">&quot;So there is no scheduler running&quot;</span>
+
+root@controlplane:~# kubectl get nodes -o wide
+NAME           STATUS   ROLES                  AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+controlplane   Ready    control-plane,master   3m11s   v1.20.0   <span class="m">10</span>.60.136.3   &lt;none&gt;        Ubuntu <span class="m">18</span>.04.5 LTS   <span class="m">5</span>.4.0-1052-gcp   docker://19.3.0
+node01         Ready    &lt;none&gt;                 2m10s   v1.20.0   <span class="m">10</span>.60.136.6   &lt;none&gt;        Ubuntu <span class="m">18</span>.04.5 LTS   <span class="m">5</span>.4.0-1052-gcp   docker://19.3.0
+root@controlplane:~# 
+
+Manually schedule the pod on node01
+
+
+root@controlplane:~# kubectl get nodes
+NAME           STATUS   ROLES                  AGE   VERSION
+controlplane   Ready    control-plane,master   35m   v1.20.0
+node01         Ready    &lt;none&gt;                 34m   v1.20.0
+root@controlplane:~# vim nginx.yaml 
+root@controlplane:~# cat nginx.yaml 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  nodeName: node01
+  containers:
+  -  image: nginx
+     name: nginx
+
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl apply -f nginx.yaml 
+pod/nginx created
+root@controlplane:~# kubectl get pods 
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   <span class="m">0</span>/1     ContainerCreating   <span class="m">0</span>          17s
+root@controlplane:~# kubectl get pods 
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   <span class="m">1</span>/1     Running   <span class="m">0</span>          67s
+root@controlplane:~# 
+
+
+root@controlplane:~# vim nginx.yaml 
+root@controlplane:~# cat nginx.yaml 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  nodeName: controlplane 
+  containers:
+  -  image: nginx
+     name: nginx
+
+root@controlplane:~#
+
+
+root@controlplane:~# kubectl apply -f nginx.yaml 
+pod/nginx created
+root@controlplane:~# kubectl get pods -o wide
+NAME    READY   STATUS              RESTARTS   AGE   IP       NODE           NOMINATED NODE   READINESS GATES
+nginx   <span class="m">0</span>/1     ContainerCreating   <span class="m">0</span>          10s   &lt;none&gt;   controlplane   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# kubectl get pods -o wide
+NAME    READY   STATUS    RESTARTS   AGE    IP           NODE           NOMINATED NODE   READINESS GATES
+nginx   <span class="m">1</span>/1     Running   <span class="m">0</span>          3m3s   <span class="m">10</span>.244.0.4   controlplane   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# 
+</pre></div>
+</div>
+</div>
+<p>LabelsSelectors</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">LabelsSelectors</span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Labels and selectors <span class="k">in</span> the kubernetes
+
+<span class="nv">app</span><span class="o">=</span>App1
+<span class="k">function</span><span class="o">=</span>Front-end
+
+<span class="nv">app</span><span class="o">=</span>App2
+<span class="k">function</span><span class="o">=</span>Back-end
+
+<span class="nv">app</span><span class="o">=</span>App3
+<span class="k">function</span><span class="o">=</span>Database
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl run nginx --image<span class="o">=</span>nginx --port<span class="o">=</span><span class="m">80</span> -l <span class="nv">app</span><span class="o">=</span>App1,function<span class="o">=</span>Front-end --dry-run<span class="o">=</span>client -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    app: App1
+    <span class="k">function</span>: Front-end
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    ports:
+    - containerPort: <span class="m">80</span>
+    resources: <span class="o">{}</span>
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: <span class="o">{}</span>
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f pod_with_labales.yaml                                                                                   
+pod/nginx created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get pod nginx -o wide
+NAME    READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+nginx   <span class="m">1</span>/1     Running   <span class="m">0</span>          11s   <span class="m">172</span>.17.0.2   minikube   &lt;none&gt;           &lt;none&gt;
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl describe  pod nginx 
+Name:         nginx
+Namespace:    default
+Priority:     <span class="m">0</span>
+Node:         minikube/192.168.49.2
+Start Time:   Tue, <span class="m">14</span> Sep <span class="m">2021</span> <span class="m">19</span>:50:13 +0800
+Labels:       <span class="nv">app</span><span class="o">=</span>App1
+              <span class="k">function</span><span class="o">=</span>Front-end
+Annotations:  &lt;none&gt;
+Status:       Running
+IP:           <span class="m">172</span>.17.0.2
+IPs:
+  IP:  <span class="m">172</span>.17.0.2
+Containers:
+  nginx:
+    Container ID:   docker://acd72109ba5fd062466487124e89cea38d84e94c48e5f21bc35015ddbcc811ef
+    Image:          nginx
+    Image ID:       docker-pullable://nginx@sha256:853b221d3341add7aaadf5f81dd088ea943ab9c918766e295321294b035f3f3e
+    Port:           <span class="m">80</span>/TCP
+    Host Port:      <span class="m">0</span>/TCP
+    State:          Running
+      Started:      Tue, <span class="m">14</span> Sep <span class="m">2021</span> <span class="m">19</span>:50:19 +0800
+    Ready:          True
+    Restart Count:  <span class="m">0</span>
+    Environment:    &lt;none&gt;
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-lxpp9 <span class="o">(</span>ro<span class="o">)</span>
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  default-token-lxpp9:
+    Type:        Secret <span class="o">(</span>a volume populated by a Secret<span class="o">)</span>
+    SecretName:  default-token-lxpp9
+    Optional:    <span class="nb">false</span>
+QoS Class:       BestEffort
+Node-Selectors:  &lt;none&gt;
+Tolerations:     node.kubernetes.io/not-ready:NoExecute <span class="nv">op</span><span class="o">=</span>Exists <span class="k">for</span> 300s
+                 node.kubernetes.io/unreachable:NoExecute <span class="nv">op</span><span class="o">=</span>Exists <span class="k">for</span> 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  27s   default-scheduler  Successfully assigned default/nginx to minikube
+  Normal  Pulling    26s   kubelet            Pulling image <span class="s2">&quot;nginx&quot;</span>
+  Normal  Pulled     21s   kubelet            Successfully pulled image <span class="s2">&quot;nginx&quot;</span> <span class="k">in</span> <span class="m">5</span>.4914337s
+  Normal  Created    21s   kubelet            Created container nginx
+  Normal  Started    21s   kubelet            Started container nginx
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling %
+
+how to <span class="k">select</span> specific pods 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get pods --selector <span class="nv">app</span><span class="o">=</span>App1
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   <span class="m">1</span>/1     Running   <span class="m">0</span>          2m19s
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+ReplicaSet labels are two types 
+<span class="m">1</span>. one is replicaset labels.
+<span class="m">2</span>. another one is pod labels.
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get rs
+NAME         DESIRED   CURRENT   READY   AGE
+sample-web   <span class="m">3</span>         <span class="m">3</span>         <span class="m">3</span>       4m6s
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl describe rs sample-web
+Name:         sample-web
+Namespace:    default
+Selector:     <span class="nv">app</span><span class="o">=</span>App1
+Labels:       <span class="nv">app</span><span class="o">=</span>App1
+              <span class="k">function</span><span class="o">=</span>Front-end
+Annotations:  &lt;none&gt;
+Replicas:     <span class="m">3</span> current / <span class="m">3</span> desired
+Pods Status:  <span class="m">3</span> Running / <span class="m">0</span> Waiting / <span class="m">0</span> Succeeded / <span class="m">0</span> Failed
+Pod Template:
+  Labels:  <span class="nv">app</span><span class="o">=</span>App1
+           <span class="k">function</span><span class="o">=</span>Front-end
+  Containers:
+   nginx-web:
+    Image:        nginx
+    Port:         &lt;none&gt;
+    Host Port:    &lt;none&gt;
+    Environment:  &lt;none&gt;
+    Mounts:       &lt;none&gt;
+  Volumes:        &lt;none&gt;
+Events:
+  Type    Reason            Age    From                   Message
+  ----    ------            ----   ----                   -------
+  Normal  SuccessfulCreate  4m20s  replicaset-controller  Created pod: sample-web-sdfsx
+  Normal  SuccessfulCreate  4m20s  replicaset-controller  Created pod: sample-web-x648g
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get rs sample-web -o wide
+NAME         DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES   SELECTOR
+sample-web   <span class="m">3</span>         <span class="m">3</span>         <span class="m">3</span>       4m40s   nginx-web    nginx    <span class="nv">app</span><span class="o">=</span>App1
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>labelsselectorslabs</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">labelsselectorslabs</span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get pods --selector <span class="nv">app</span><span class="o">=</span>App1
+NAME               READY   STATUS    RESTARTS   AGE
+nginx              <span class="m">1</span>/1     Running   <span class="m">0</span>          108m
+sample-web-sdfsx   <span class="m">1</span>/1     Running   <span class="m">0</span>          14m
+sample-web-x648g   <span class="m">1</span>/1     Running   <span class="m">0</span>          14m
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+We have deployed a number of PODs. They are labelled with tier, env and bu. How many PODs exist <span class="k">in</span> the dev environment?
+
+root@controlplane:~# kubectl get pods --selector <span class="nv">env</span><span class="o">=</span>dev
+NAME          READY   STATUS    RESTARTS   AGE
+app-1-7pdj8   <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+app-1-848jw   <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+app-1-9qzgq   <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+db-1-4jl5f    <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+db-1-j5xpx    <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+db-1-ltqng    <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+db-1-s2w87    <span class="m">1</span>/1     Running   <span class="m">0</span>          7m26s
+root@controlplane:~#
+
+root@controlplane:~# kubectl get pods --selector <span class="nv">bu</span><span class="o">=</span>finance
+NAME          READY   STATUS    RESTARTS   AGE
+app-1-7pdj8   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m12s
+app-1-848jw   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m12s
+app-1-9qzgq   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m12s
+app-1-zzxdf   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m11s
+auth          <span class="m">1</span>/1     Running   <span class="m">0</span>          8m12s
+db-2-kwxn9    <span class="m">1</span>/1     Running   <span class="m">0</span>          8m12s
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl get all --selector <span class="nv">env</span><span class="o">=</span>prod
+NAME              READY   STATUS    RESTARTS   AGE
+pod/app-1-zzxdf   <span class="m">1</span>/1     Running   <span class="m">0</span>          9m
+pod/app-2-whmqr   <span class="m">1</span>/1     Running   <span class="m">0</span>          9m1s
+pod/auth          <span class="m">1</span>/1     Running   <span class="m">0</span>          9m1s
+pod/db-2-kwxn9    <span class="m">1</span>/1     Running   <span class="m">0</span>          9m1s
+
+NAME            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>    AGE
+service/app-1   ClusterIP   <span class="m">10</span>.109.116.5   &lt;none&gt;        <span class="m">3306</span>/TCP   9m
+
+NAME                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/app-2   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       9m1s
+replicaset.apps/db-2    <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       9m1s
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl get all --selector <span class="nv">env</span><span class="o">=</span>prod,bu<span class="o">=</span>finance,tier<span class="o">=</span>frontend
+NAME              READY   STATUS    RESTARTS   AGE
+pod/app-1-zzxdf   <span class="m">1</span>/1     Running   <span class="m">0</span>          12m
+root@controlplane:~#
+</pre></div>
+</div>
+</div>
+<p>taintstolerations</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">taintstolerations</span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>taints on nodes
+
+use tolerations on pods to schedule a pod on that tainted node 
+
+
+Lets say we have <span class="m">3</span> nodes node1,node2,node3
+
+taint a node:
+------------------&gt;
+kubectl taint nodes node1 <span class="nv">key</span><span class="o">=</span>value:taint-effect
+
+kubectl taint nodes node1 <span class="nv">app</span><span class="o">=</span>blue:Noschedule -- No pods gets scheduled here unless they tolerates the taint
+kubectl taint nodes node1 <span class="nv">app</span><span class="o">=</span>blue:PreferNoSchedule  -- it doesnot guaranteed
+kubectl taint nodes node1 <span class="nv">app</span><span class="o">=</span>blue:NoExecute -- New pods will not schedule on the node and existing pods on the node <span class="k">if</span> any will get evicted.
+
+<span class="k">in</span> the node:
+--------------------&gt;
+kubectl taint nodes node1 <span class="nv">app</span><span class="o">=</span>blue:Noschedule 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl run nginx --image<span class="o">=</span>nginx --dry-run<span class="o">=</span>client -o yaml &gt; <span class="m">8</span>.demo_taint_tolerations.yaml
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+<span class="k">in</span> the pod specification file:
+----------------------------------&gt;
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  tolerations:
+    - key: <span class="s2">&quot;app&quot;</span>
+      operator: <span class="s2">&quot;Equal&quot;</span>
+      value: <span class="s2">&quot;blue&quot;</span>
+      effect: <span class="s2">&quot;NoSchedule&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>taintstolerationslabs</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">taintstolerationslabs</span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>By default k8s master has a taint to not to schedule any pods there
+
+root@controlplane:~# kubectl describe node controlplane <span class="p">|</span> grep -i <span class="s2">&quot;taint&quot;</span>
+Taints:             node-role.kubernetes.io/master:NoSchedule
+root@controlplane:~#
+
+root@controlplane:~# kubectl get nodes -o wide
+NAME           STATUS   ROLES                  AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+controlplane   Ready    control-plane,master   15m   v1.20.0   <span class="m">10</span>.63.25.9    &lt;none&gt;        Ubuntu <span class="m">18</span>.04.5 LTS   <span class="m">5</span>.4.0-1052-gcp   docker://19.3.0
+node01         Ready    &lt;none&gt;                 14m   v1.20.0   <span class="m">10</span>.63.25.12   &lt;none&gt;        Ubuntu <span class="m">18</span>.04.5 LTS   <span class="m">5</span>.4.0-1052-gcp   docker://19.3.0
+root@controlplane:~# 
+
+No tanits on worker node:
+-------------------------------------------------------&gt;
+
+root@controlplane:~# kubectl describe node node01 <span class="p">|</span> grep -i taint
+Taints:             &lt;none&gt;
+root@controlplane:~#
+
+root@controlplane:~# kubectl get nodes
+NAME           STATUS   ROLES                  AGE   VERSION
+controlplane   Ready    control-plane,master   17m   v1.20.0
+node01         Ready    &lt;none&gt;                 16m   v1.20.0
+root@controlplane:~# 
+
+root@controlplane:~# kubectl taint node node01 <span class="nv">spray</span><span class="o">=</span>mortein:NoSchedule
+node/node01 tainted
+root@controlplane:~# kubectl describe node node01 <span class="p">|</span> grep -i <span class="s2">&quot;taint&quot;</span>
+Taints:             <span class="nv">spray</span><span class="o">=</span>mortein:NoSchedule
+root@controlplane:~# 
+
+root@controlplane:~# kubectl run mosquito --image<span class="o">=</span>nginx
+pod/mosquito created
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl get pod mosquito -o wide
+NAME       READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
+mosquito   <span class="m">0</span>/1     Pending   <span class="m">0</span>          35s   &lt;none&gt;   &lt;none&gt;   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl run bee --image<span class="o">=</span>nginx --dry-run<span class="o">=</span>client -o yaml &gt; bee_pod_tolerations.yaml
+root@controlplane:~#
+
+root@controlplane:~# vim bee_pod_tolerations.yaml
+root@controlplane:~# kubectl apply -f bee_pod_tolerations.yaml
+pod/bee created
+root@controlplane:~# 
+
+root@controlplane:~# kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+bee        <span class="m">1</span>/1     Running   <span class="m">0</span>          5m18s
+mosquito   <span class="m">0</span>/1     Pending   <span class="m">0</span>          17m
+root@controlplane:~# 
+
+
+Untaint the node
+
+root@controlplane:~# kubectl taint node controlplane node-role.kubernetes.io/master:NoSchedule-
+node/controlplane untainted
+root@controlplane:~# 
+
+root@controlplane:~# kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+bee        <span class="m">1</span>/1     Running   <span class="m">0</span>          13m
+mosquito   <span class="m">1</span>/1     Running   <span class="m">0</span>          25m
+root@controlplane:~# 
+
+
+How to see documentation when we have errors <span class="k">in</span> pod definition or Replicaset definition or Deployment definition files
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl explain pods --recursive <span class="p">|</span> grep -iwA5 tolerations
+      tolerations       &lt;<span class="o">[]</span>Object&gt;
+         effect &lt;string&gt;
+         key    &lt;string&gt;
+         operator       &lt;string&gt;
+         tolerationSeconds      &lt;integer&gt;
+         value  &lt;string&gt;
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>NodeSelectors</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">NodeSelectors</span><a class="headerlink" href="#id7" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl run nginx --image<span class="o">=</span>nginx --dry-run<span class="o">=</span>client -o yaml &gt; pod-definition-nodeSelector.yaml
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  nodeSelector:
+    size: Large  <span class="c1"># This is the node Label</span>
+
+
+<span class="s2">&quot;How to Label a node&quot;</span>
+
+kubectl label nodes node01 <span class="nv">size</span><span class="o">=</span>Large
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get nodes -o wide
+NAME       STATUS   ROLES                  AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
+minikube   Ready    control-plane,master   11d   v1.20.2   <span class="m">192</span>.168.49.2   &lt;none&gt;        Ubuntu <span class="m">20</span>.04.2 LTS   <span class="m">5</span>.4.39-linuxkit   docker://20.10.6
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl label nodes minikube <span class="nv">size</span><span class="o">=</span>Large
+node/minikube labeled
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling %
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl describe node minikube <span class="p">|</span> grep -iB20 <span class="s2">&quot;size=Large&quot;</span>
+Name:               minikube
+Roles:              control-plane,master
+Labels:             beta.kubernetes.io/arch<span class="o">=</span>amd64
+                    beta.kubernetes.io/os<span class="o">=</span>linux
+                    kubernetes.io/arch<span class="o">=</span>amd64
+                    kubernetes.io/hostname<span class="o">=</span>minikube
+                    kubernetes.io/os<span class="o">=</span>linux
+                    minikube.k8s.io/commit<span class="o">=</span>c61663e942ec43b20e8e70839dcca52e44cd85ae
+                    minikube.k8s.io/name<span class="o">=</span>minikube
+                    minikube.k8s.io/updated_at<span class="o">=</span>2021_09_04T14_52_27_0700
+                    minikube.k8s.io/version<span class="o">=</span>v1.20.0
+                    node-role.kubernetes.io/control-plane<span class="o">=</span>
+                    node-role.kubernetes.io/master<span class="o">=</span>
+                    <span class="nv">size</span><span class="o">=</span>Large
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>nodeaffinity</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">nodeaffinity</span><a class="headerlink" href="#id8" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>We can not provide advanced options like Large <span class="o">(</span>or<span class="o">)</span> Medium <span class="o">(</span>or<span class="o">)</span> Not Small like that with NodeSeletors
+
+So Node Affinity gives us the advanced capability to place a pod on particular Node with conditions.
+
+to get the exact syntacx run kubectl explain pods --recursive <span class="nb">command</span> like below.
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl explain pods --recursive <span class="p">|</span> grep -iwA65 <span class="s2">&quot;affinity&quot;</span>
+      affinity  &lt;Object&gt;
+         nodeAffinity   &lt;Object&gt;
+            preferredDuringSchedulingIgnoredDuringExecution     &lt;<span class="o">[]</span>Object&gt;
+               preference       &lt;Object&gt;
+                  matchExpressions      &lt;<span class="o">[]</span>Object&gt;
+                     key        &lt;string&gt;
+                     operator   &lt;string&gt;
+                     values     &lt;<span class="o">[]</span>string&gt;
+                  matchFields   &lt;<span class="o">[]</span>Object&gt;
+                     key        &lt;string&gt;
+                     operator   &lt;string&gt;
+                     values     &lt;<span class="o">[]</span>string&gt;
+               weight   &lt;integer&gt;
+            requiredDuringSchedulingIgnoredDuringExecution      &lt;Object&gt;
+               nodeSelectorTerms        &lt;<span class="o">[]</span>Object&gt;
+                  matchExpressions      &lt;<span class="o">[]</span>Object&gt;
+                     key        &lt;string&gt;
+                     operator   &lt;string&gt;
+                     values     &lt;<span class="o">[]</span>string&gt;
+                  matchFields   &lt;<span class="o">[]</span>Object&gt;
+                     key        &lt;string&gt;
+                     operator   &lt;string&gt;
+                     values     &lt;<span class="o">[]</span>string&gt;
+         podAffinity    &lt;Object&gt;
+            preferredDuringSchedulingIgnoredDuringExecution     &lt;<span class="o">[]</span>Object&gt;
+               podAffinityTerm  &lt;Object&gt;
+                  labelSelector &lt;Object&gt;
+                     matchExpressions   &lt;<span class="o">[]</span>Object&gt;
+                        key     &lt;string&gt;
+                        operator        &lt;string&gt;
+                        values  &lt;<span class="o">[]</span>string&gt;
+                     matchLabels        &lt;map<span class="o">[</span>string<span class="o">]</span>string&gt;
+                  namespaces    &lt;<span class="o">[]</span>string&gt;
+                  topologyKey   &lt;string&gt;
+               weight   &lt;integer&gt;
+            requiredDuringSchedulingIgnoredDuringExecution      &lt;<span class="o">[]</span>Object&gt;
+               labelSelector    &lt;Object&gt;
+                  matchExpressions      &lt;<span class="o">[]</span>Object&gt;
+                     key        &lt;string&gt;
+                     operator   &lt;string&gt;
+                     values     &lt;<span class="o">[]</span>string&gt;
+                  matchLabels   &lt;map<span class="o">[</span>string<span class="o">]</span>string&gt;
+               namespaces       &lt;<span class="o">[]</span>string&gt;
+               topologyKey      &lt;string&gt;
+         podAntiAffinity        &lt;Object&gt;
+            preferredDuringSchedulingIgnoredDuringExecution     &lt;<span class="o">[]</span>Object&gt;
+               podAffinityTerm  &lt;Object&gt;
+                  labelSelector &lt;Object&gt;
+                     matchExpressions   &lt;<span class="o">[]</span>Object&gt;
+                        key     &lt;string&gt;
+                        operator        &lt;string&gt;
+                        values  &lt;<span class="o">[]</span>string&gt;
+                     matchLabels        &lt;map<span class="o">[</span>string<span class="o">]</span>string&gt;
+                  namespaces    &lt;<span class="o">[]</span>string&gt;
+                  topologyKey   &lt;string&gt;
+               weight   &lt;integer&gt;
+            requiredDuringSchedulingIgnoredDuringExecution      &lt;<span class="o">[]</span>Object&gt;
+               labelSelector    &lt;Object&gt;
+                  matchExpressions      &lt;<span class="o">[]</span>Object&gt;
+                     key        &lt;string&gt;
+                     operator   &lt;string&gt;
+                     values     &lt;<span class="o">[]</span>string&gt;
+                  matchLabels   &lt;map<span class="o">[</span>string<span class="o">]</span>string&gt;
+               namespaces       &lt;<span class="o">[]</span>string&gt;
+               topologyKey      &lt;string&gt;
+      automountServiceAccountToken      &lt;boolean&gt;
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl describe node minikube <span class="p">|</span> grep -i large
+                    <span class="nv">size</span><span class="o">=</span>Large
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get pods
+No resources found <span class="k">in</span> default namespace.
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f pod_with_node_affinity.yaml 
+pod/nginx created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get pods -o wide
+NAME    READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+nginx   <span class="m">1</span>/1     Running   <span class="m">0</span>          16s   <span class="m">172</span>.17.0.2   minikube   &lt;none&gt;           &lt;none&gt;
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f pod_with_node_affinity_NotIn.yaml 
+pod/nginx2 created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f pod_with_node_affinity_Exists.yaml 
+pod/nginx3 created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>nodeaffinitytypes</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">nodeaffinitytypes</span><a class="headerlink" href="#id9" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Available:
+requiredDuringSchedulingIgnoredDuringExecution
+preferredDuringSchedulingIgnoredDuringExecution
+
+Planned:
+requiredDuringSchedulingRequiredDuringExecution
+preferredDuringSchedulingRequiredDuringExecution
+</pre></div>
+</div>
+</div>
+<p>nodeaffinitylabs</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">nodeaffinitylabs</span><a class="headerlink" href="#id10" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# kubectl describe node node01 <span class="p">|</span> grep -iwC10 <span class="s2">&quot;Labels:&quot;</span>
+Name:               node01
+Roles:              &lt;none&gt;
+Labels:             beta.kubernetes.io/arch<span class="o">=</span>amd64
+                    beta.kubernetes.io/os<span class="o">=</span>linux
+                    kubernetes.io/arch<span class="o">=</span>amd64
+                    kubernetes.io/hostname<span class="o">=</span>node01
+                    kubernetes.io/os<span class="o">=</span>linux
+Annotations:        flannel.alpha.coreos.com/backend-data: <span class="o">{</span><span class="s2">&quot;VNI&quot;</span>:1,<span class="s2">&quot;VtepMAC&quot;</span>:<span class="s2">&quot;9e:a5:53:b7:a3:98&quot;</span><span class="o">}</span>
+                    flannel.alpha.coreos.com/backend-type: vxlan
+                    flannel.alpha.coreos.com/kube-subnet-manager: <span class="nb">true</span>
+                    flannel.alpha.coreos.com/public-ip: <span class="m">10</span>.49.14.3
+                    kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+                    node.alpha.kubernetes.io/ttl: <span class="m">0</span>
+root@controlplane:~# 
+
+root@controlplane:~# kubectl get nodes
+NAME           STATUS   ROLES                  AGE   VERSION
+controlplane   Ready    control-plane,master   21m   v1.20.0
+node01         Ready    &lt;none&gt;                 20m   v1.20.0
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl label node node01 <span class="nv">color</span><span class="o">=</span>blue
+node/node01 labeled
+root@controlplane:~# kubectl describe node node01 <span class="p">|</span> grep -iwC10 <span class="s2">&quot;Labels:&quot;</span>
+Name:               node01
+Roles:              &lt;none&gt;
+Labels:             beta.kubernetes.io/arch<span class="o">=</span>amd64
+                    beta.kubernetes.io/os<span class="o">=</span>linux
+                    <span class="nv">color</span><span class="o">=</span>blue
+                    kubernetes.io/arch<span class="o">=</span>amd64
+                    kubernetes.io/hostname<span class="o">=</span>node01
+                    kubernetes.io/os<span class="o">=</span>linux
+Annotations:        flannel.alpha.coreos.com/backend-data: <span class="o">{</span><span class="s2">&quot;VNI&quot;</span>:1,<span class="s2">&quot;VtepMAC&quot;</span>:<span class="s2">&quot;9e:a5:53:b7:a3:98&quot;</span><span class="o">}</span>
+                    flannel.alpha.coreos.com/backend-type: vxlan
+                    flannel.alpha.coreos.com/kube-subnet-manager: <span class="nb">true</span>
+                    flannel.alpha.coreos.com/public-ip: <span class="m">10</span>.49.14.3
+                    kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+root@controlplane:~# 
+
+
+root@controlplane:~# kubectl create deploy blue --image<span class="o">=</span>nginx --replicas<span class="o">=</span><span class="m">3</span> --dry-run<span class="o">=</span>client -o yaml &gt; blue_deployment.yaml
+root@controlplane:~# kubectl apply -f blue_deployment.yaml 
+deployment.apps/blue created
+root@controlplane:~# 
+
+root@controlplane:~# kubectl get pods -o wide
+NAME                    READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+blue-7bb46df96d-7n2tq   <span class="m">1</span>/1     Running   <span class="m">0</span>          43s   <span class="m">10</span>.244.1.4   node01   &lt;none&gt;           &lt;none&gt;
+blue-7bb46df96d-qd5sv   <span class="m">1</span>/1     Running   <span class="m">0</span>          43s   <span class="m">10</span>.244.1.2   node01   &lt;none&gt;           &lt;none&gt;
+blue-7bb46df96d-wvvb4   <span class="m">1</span>/1     Running   <span class="m">0</span>          43s   <span class="m">10</span>.244.1.3   node01   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# 
+
+root@controlplane:~# kubectl describe node node01 <span class="p">|</span> grep -i <span class="s2">&quot;taint&quot;</span>
+Taints:             &lt;none&gt;
+root@controlplane:~# kubectl describe node controlplane <span class="p">|</span> grep -i <span class="s2">&quot;taint&quot;</span>
+Taints:             &lt;none&gt;
+root@controlplane:~# 
+
+Set Node Affinity to the deployment to place the pods on node01 only.
+
+Name: blue
+Replicas: <span class="m">3</span>
+Image: nginx
+NodeAffinity: requiredDuringSchedulingIgnoredDuringExecution
+Key: color
+values: blue
+
+
+
+root@controlplane:~# vim blue_deployment.yaml 
+root@controlplane:~# kubectl apply -f blue_deployment.yaml 
+deployment.apps/blue configured
+root@controlplane:~# 
+
+
+Use the label - node-role.kubernetes.io/master - <span class="nb">set</span> on the controlplane node.
+
+
+
+
+
+root@controlplane:~# kubectl describe node controlplane <span class="p">|</span> grep -iwC10 <span class="s2">&quot;Labels:&quot;</span>
+Name:               controlplane
+Roles:              control-plane,master
+Labels:             beta.kubernetes.io/arch<span class="o">=</span>amd64
+                    beta.kubernetes.io/os<span class="o">=</span>linux
+                    kubernetes.io/arch<span class="o">=</span>amd64
+                    kubernetes.io/hostname<span class="o">=</span>controlplane
+                    kubernetes.io/os<span class="o">=</span>linux
+                    node-role.kubernetes.io/control-plane<span class="o">=</span>
+                    node-role.kubernetes.io/master<span class="o">=</span>
+Annotations:        flannel.alpha.coreos.com/backend-data: <span class="o">{</span><span class="s2">&quot;VNI&quot;</span>:1,<span class="s2">&quot;VtepMAC&quot;</span>:<span class="s2">&quot;da:0c:0a:a9:ce:3f&quot;</span><span class="o">}</span>
+                    flannel.alpha.coreos.com/backend-type: vxlan
+                    flannel.alpha.coreos.com/kube-subnet-manager: <span class="nb">true</span>
+                    flannel.alpha.coreos.com/public-ip: <span class="m">10</span>.49.14.12
+root@controlplane:~# cp blue_deployment.yaml red_deployment.yaml
+root@controlplane:~# vim red_deployment.yaml 
+root@controlplane:~# vim red_deployment.yaml 
+root@controlplane:~# kubectl apply -f red_deployment.yaml 
+deployment.apps/red created
+root@controlplane:~# kubectl get pods -o wide <span class="p">|</span> grep -i red
+red-5cbd45ccb6-r2ph2    <span class="m">0</span>/1     ContainerCreating   <span class="m">0</span>          14s     &lt;none&gt;       controlplane   &lt;none&gt;           &lt;none&gt;
+red-5cbd45ccb6-zmgkc    <span class="m">0</span>/1     ContainerCreating   <span class="m">0</span>          14s     &lt;none&gt;       controlplane   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# kubectl get pods -o wide <span class="p">|</span> grep -i red
+red-5cbd45ccb6-r2ph2    <span class="m">1</span>/1     Running   <span class="m">0</span>          32s     <span class="m">10</span>.244.0.4   controlplane   &lt;none&gt;           &lt;none&gt;
+red-5cbd45ccb6-zmgkc    <span class="m">1</span>/1     Running   <span class="m">0</span>          32s     <span class="m">10</span>.244.0.5   controlplane   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# 
+</pre></div>
+</div>
+</div>
+<p>resourcelimits</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">resourcelimits</span><a class="headerlink" href="#id11" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Resource Requests:
+
+minimum memory,cpu resources utilized by container can be <span class="nb">set</span> by 
+
+requests:
+  memory: <span class="s2">&quot;1Gi&quot;</span>
+  cpu: <span class="m">1</span>
+
+1G --&gt; <span class="m">1</span> Giga Byte<span class="o">(</span><span class="m">1000</span> Mega bytes<span class="o">)</span>
+1Gi --&gt; <span class="m">1</span> Gibi byte<span class="o">(</span><span class="m">1024</span> Mega bytes<span class="o">)</span>
+
+We can also <span class="nb">set</span> maximum resources utilized by container with 
+
+limits:
+  memory: <span class="s2">&quot;2Gi&quot;</span>
+  cpu: <span class="m">2</span>
+
+<span class="k">if</span> container uses more than specified limits <span class="k">for</span> cpu and memory pod will get terminated
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f pod_with_resource_limits.yaml
+pod/nginx18 created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f pod_with_resource_limits.yaml 
+pod/nginx created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+We can also <span class="nb">set</span> at namespace level to <span class="nb">set</span> default requests and limits <span class="k">for</span> both cpu and memory by creating the LimitRange <span class="k">in</span> the namespace
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+    defaultRequest:
+      memory: 256Mi
+    type: Container
+
+
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-limit-range
+spec:
+  limits:
+  - default:
+      cpu: <span class="m">1</span>
+    defaultRequest:
+      cpu: <span class="m">0</span>.5
+    type: Container
+
+
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl api-resources <span class="p">|</span> grep -i <span class="s2">&quot;limit&quot;</span>
+limitranges                       limits                                      <span class="nb">true</span>         LimitRange
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get limits --all-namespaces    
+No resources found
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>resourcelimitslabs</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">resourcelimitslabs</span><a class="headerlink" href="#id12" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# kubectl get deploy
+No resources found <span class="k">in</span> default namespace.
+root@controlplane:~# kubectl get pods  
+NAME     READY   STATUS             RESTARTS   AGE
+rabbit   <span class="m">0</span>/1     CrashLoopBackOff   <span class="m">2</span>          56s
+root@controlplane:~# 
+
+root@controlplane:~# kubectl get pod rabbit -o yaml <span class="p">|</span> grep -iwA4  <span class="s2">&quot; resources:&quot;</span>
+    resources:
+      limits:
+        cpu: <span class="s2">&quot;2&quot;</span>
+      requests:
+        cpu: <span class="s2">&quot;1&quot;</span>
+root@controlplane:~# 
+
+
+
+
+root@controlplane:~# kubectl describe pod elephant <span class="p">|</span> grep -iA5 state
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       OOMKilled
+      Exit Code:    <span class="m">1</span>
+      Started:      Sat, <span class="m">18</span> Sep <span class="m">2021</span> <span class="m">01</span>:18:37 +0000
+      Finished:     Sat, <span class="m">18</span> Sep <span class="m">2021</span> <span class="m">01</span>:18:37 +0000
+    Ready:          False
+root@controlplane:~# 
+
+
+
+root@controlplane:~# kubectl edit pod elephant 
+error: pods <span class="s2">&quot;elephant&quot;</span> is invalid
+A copy of your changes has been stored to <span class="s2">&quot;/tmp/kubectl-edit-ffi5t.yaml&quot;</span>
+error: Edit cancelled, no valid changes were saved.
+root@controlplane:~# kubectl delete pod elephant 
+pod <span class="s2">&quot;elephant&quot;</span> deleted
+root@controlplane:~# kubectl apply -f /tmp/kubectl-edit-ffi5t.yaml
+pod/elephant created
+root@controlplane:~# kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+elephant   <span class="m">1</span>/1     Running   <span class="m">0</span>          31s
+root@controlplane:~# 
+</pre></div>
+</div>
+</div>
+<p>daemonsets</p>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">daemonsets</span><a class="headerlink" href="#id13" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>daemonset runs one copy of pod on each node <span class="k">in</span> the cluster
+
+Whenever a new node joins a cluster a replica of pod automatically added to that node.
+
+
+Examples like 
+<span class="m">1</span>.deploying a monitoring agent and 
+<span class="m">2</span>.log collector <span class="k">in</span> each node
+
+
+Kube-proxy an worker node component deployed as a daemonset :<span class="o">)</span> 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get ds --all-namespaces -o wide
+NAMESPACE     NAME         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE   CONTAINERS   IMAGES                          SELECTOR
+kube-system   kube-proxy   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           kubernetes.io/os<span class="o">=</span>linux   13d   kube-proxy   k8s.gcr.io/kube-proxy:v1.20.2   k8s-app<span class="o">=</span>kube-proxy
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get all --all-namespaces -o wide <span class="p">|</span> grep -i <span class="s2">&quot;daemonset&quot;</span>
+kube-system   daemonset.apps/kube-proxy   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           kubernetes.io/os<span class="o">=</span>linux   13d   kube-proxy   k8s.gcr.io/kube-proxy:v1.20.2   k8s-app<span class="o">=</span>kube-proxy
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+
+how to write daemonset specification file
+first create a deployment --dry-run<span class="o">=</span>client  and get the replicaset yaml file and edit kind to daemonset like below
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl create deployment webapp --image<span class="o">=</span>nginx --dry-run<span class="o">=</span>client -o yaml &gt; web_app_deployment.yaml
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f web_app_deployment.yaml 
+deployment.apps/webapp created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get all
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/webapp-5654c984c-qlz76   <span class="m">1</span>/1     Running   <span class="m">0</span>          63s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
+service/kubernetes   ClusterIP   <span class="m">10</span>.96.0.1    &lt;none&gt;        <span class="m">443</span>/TCP   14d
+
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/webapp   <span class="m">1</span>/1     <span class="m">1</span>            <span class="m">1</span>           63s
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/webapp-5654c984c   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       63s
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get rs webapp-5654c984c -o yaml &gt; web_app_replicaset.yaml
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % cp web_app_replicaset.yaml web_app_daemonset.yaml
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl delete deploy webapp
+deployment.apps <span class="s2">&quot;webapp&quot;</span> deleted
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl apply -f web_app_daemonset.yaml
+daemonset.apps/webapp-daemon created
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl get ds webapp-daemon -o wide
+NAME            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE    CONTAINERS   IMAGES   SELECTOR
+webapp-daemon   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           &lt;none&gt;          3m3s   nginx        nginx    <span class="nv">app</span><span class="o">=</span>webapp-agent
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>daemonsetlabs</p>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">daemonsetlabs</span><a class="headerlink" href="#id14" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# kubectl get ds --all-namespaces
+NAMESPACE     NAME              DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+kube-system   kube-flannel-ds   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           &lt;none&gt;                   15m
+kube-system   kube-proxy        <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           kubernetes.io/os<span class="o">=</span>linux   15m
+root@controlplane:~# 
+
+
+Deploy a DaemonSet <span class="k">for</span> FluentD Logging.
+Name: elasticsearch
+Namespace: kube-system
+Image: k8s.gcr.io/fluentd-elasticsearch:1.20
+
+root@controlplane:~# kubectl create deployment elasticsearch --image<span class="o">=</span>k8s.gcr.io/fluentd-elasticsearch:1.20 -n kube-system --dry-run<span class="o">=</span>client -o yaml &gt; fluend_deploy.yaml
+root@controlplane:~# 
+
+
+root@controlplane:~# vim fluend_deploy.yaml 
+root@controlplane:~# cat fluend_deploy.yaml 
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: elasticsearch
+  name: elasticsearch
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - image: k8s.gcr.io/fluentd-elasticsearch:1.20
+        name: fluentd-elasticsearch
+root@controlplane:~# 
+
+root@controlplane:~# kubectl apply -f fluend_deploy.yaml 
+daemonset.apps/elasticsearch created
+root@controlplane:~#
+
+root@controlplane:~# kubectl get ds -o wide -n kube-system
+NAME              DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE   CONTAINERS              IMAGES                                  SELECTOR
+elasticsearch     <span class="m">1</span>         <span class="m">1</span>         <span class="m">0</span>       <span class="m">1</span>            <span class="m">0</span>           &lt;none&gt;                   17s   fluentd-elasticsearch   k8s.gcr.io/fluentd-elasticsearch:1.20   <span class="nv">app</span><span class="o">=</span>elasticsearch
+kube-flannel-ds   <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           &lt;none&gt;                   22m   kube-flannel            quay.io/coreos/flannel:v0.13.1-rc1      <span class="nv">app</span><span class="o">=</span>flannel
+kube-proxy        <span class="m">1</span>         <span class="m">1</span>         <span class="m">1</span>       <span class="m">1</span>            <span class="m">1</span>           kubernetes.io/os<span class="o">=</span>linux   22m   kube-proxy              k8s.gcr.io/kube-proxy:v1.20.0           k8s-app<span class="o">=</span>kube-proxy
+root@controlplane:~# 
+</pre></div>
+</div>
+</div>
+<p>staticpods</p>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">staticpods</span><a class="headerlink" href="#id15" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>static pods we can create without any k8s master
+
+In standalone node<span class="o">(</span>with out any master<span class="o">)</span> <span class="k">in</span> kubelet config we can specify a statuc path to look <span class="k">for</span> pod specification files
+We can only create pods with this static path we can not create replicaset <span class="o">(</span>or<span class="o">)</span> deployments <span class="o">(</span>or<span class="o">)</span> daemonsets etc...
+
+kubelet service<span class="o">(</span>kubelet.service<span class="o">)</span> config specify like
+--pod-manifest-path<span class="o">=</span>/etc/kubernetes/manifests
+
+another way  <span class="k">in</span> kubelet.service file specify like
+--config<span class="o">=</span>kubeconfig.yaml
+
+<span class="k">in</span> kubeconfig.yaml file we can specify the pod specification files path like below
+staticPodPath: /etc/kubernetes/manifests 
+</pre></div>
+</div>
+</div>
+<p>staticpodlabs</p>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">staticpodlabs</span><a class="headerlink" href="#id16" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>what are the pods created as static pods -- static pods normally ends with name of the node.
+
+root@controlplane:~# kubectl get pods --all-namespaces
+NAMESPACE     NAME                                   READY   STATUS    RESTARTS   AGE
+kube-system   coredns-74ff55c5b-d74qv                <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   coredns-74ff55c5b-gw2ht                <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   etcd-controlplane                      <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-apiserver-controlplane            <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-controller-manager-controlplane   <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-flannel-ds-572ns                  <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-flannel-ds-lbq9j                  <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-proxy-czxw2                       <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-proxy-xghtc                       <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+kube-system   kube-scheduler-controlplane            <span class="m">1</span>/1     Running   <span class="m">0</span>          30m
+root@controlplane:~# kubectl get pods --all-namespaces <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span> <span class="p">|</span> grep <span class="s2">&quot;controlplane</span>$<span class="s2">&quot;</span>
+etcd-controlplane
+kube-apiserver-controlplane
+kube-controller-manager-controlplane
+kube-scheduler-controlplane
+root@controlplane:~# 
+
+
+On which nodes are the static pods created currently?
+
+root@controlplane:~# kubectl get pods -o wide --all-namespaces <span class="p">|</span> grep -i controlplane
+kube-system   etcd-controlplane                      <span class="m">1</span>/1     Running   <span class="m">0</span>          33m   <span class="m">10</span>.55.152.6   controlplane   &lt;none&gt;           &lt;none&gt;
+kube-system   kube-apiserver-controlplane            <span class="m">1</span>/1     Running   <span class="m">0</span>          33m   <span class="m">10</span>.55.152.6   controlplane   &lt;none&gt;           &lt;none&gt;
+kube-system   kube-controller-manager-controlplane   <span class="m">1</span>/1     Running   <span class="m">0</span>          33m   <span class="m">10</span>.55.152.6   controlplane   &lt;none&gt;           &lt;none&gt;
+kube-system   kube-scheduler-controlplane            <span class="m">1</span>/1     Running   <span class="m">0</span>          33m   <span class="m">10</span>.55.152.6   controlplane   &lt;none&gt;           &lt;none&gt;
+root@controlplane:~# 
+
+What is the path of the directory holding the static pod definition files?
+
+root@controlplane:~# ps auxwww <span class="p">|</span> grep -i <span class="s2">&quot;kubelet &quot;</span>
+root      <span class="m">4938</span>  <span class="m">0</span>.0  <span class="m">0</span>.0 <span class="m">3929104</span> <span class="m">106740</span> ?      Ssl  <span class="m">00</span>:10   <span class="m">2</span>:11 /usr/bin/kubelet --bootstrap-kubeconfig<span class="o">=</span>/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig<span class="o">=</span>/etc/kubernetes/kubelet.conf --config<span class="o">=</span>/var/lib/kubelet/config.yaml --network-plugin<span class="o">=</span>cni --pod-infra-container-image<span class="o">=</span>k8s.gcr.io/pause:3.2
+root     <span class="m">25099</span>  <span class="m">0</span>.0  <span class="m">0</span>.0  <span class="m">11468</span>  <span class="m">1120</span> pts/0    R+   <span class="m">00</span>:48   <span class="m">0</span>:00 grep --color<span class="o">=</span>auto -i kubelet 
+root@controlplane:~# 
+
+root@controlplane:~# cat /var/lib/kubelet/config.yaml <span class="p">|</span> grep -i static
+staticPodPath: /etc/kubernetes/manifests
+root@controlplane:~# 
+
+root@controlplane:~# <span class="nb">cd</span> /etc/kubernetes/manifests
+root@controlplane:/etc/kubernetes/manifests# ls -rtlh
+total 16K
+-rw------- <span class="m">1</span> root root <span class="m">3</span>.8K Sep <span class="m">20</span> <span class="m">00</span>:09 kube-apiserver.yaml
+-rw------- <span class="m">1</span> root root <span class="m">1</span>.4K Sep <span class="m">20</span> <span class="m">00</span>:09 kube-scheduler.yaml
+-rw------- <span class="m">1</span> root root <span class="m">3</span>.3K Sep <span class="m">20</span> <span class="m">00</span>:09 kube-controller-manager.yaml
+-rw------- <span class="m">1</span> root root <span class="m">2</span>.2K Sep <span class="m">20</span> <span class="m">00</span>:09 etcd.yaml
+root@controlplane:/etc/kubernetes/manifests#
+
+root@controlplane:/etc/kubernetes/manifests# cat kube-apiserver.yaml <span class="p">|</span> grep -i image
+    image: k8s.gcr.io/kube-apiserver:v1.20.0
+    imagePullPolicy: IfNotPresent
+root@controlplane:/etc/kubernetes/manifests# 
+
+
+Create a static pod named static-busybox that uses the busybox image and the <span class="nb">command</span> sleep <span class="m">1000</span>
+
+
+root@controlplane:/etc/kubernetes/manifests# kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>busybox static-busybox --dry-run<span class="o">=</span>client -o yaml --command -- sleep <span class="m">1000</span> &gt; static-busybox.yaml
+root@controlplane:/etc/kubernetes/manifests# 
+
+root@controlplane:/etc/kubernetes/manifests# kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>busybox:1.28.4 static-busybox --dry-run<span class="o">=</span>client -o yaml --command -- sleep <span class="m">1000</span> &gt; static-busybox.yaml
+root@controlplane:/etc/kubernetes/manifests# 
+
+
+root@controlplane:~# ssh node01
+Last login: Mon Sep <span class="m">20</span> <span class="m">00</span>:59:11 <span class="m">2021</span> from <span class="m">10</span>.55.152.4
+root@node01:~# ps auxwww <span class="p">|</span> grep -i <span class="s2">&quot;kubelet &quot;</span>
+root     <span class="m">23673</span>  <span class="m">0</span>.0  <span class="m">0</span>.0 <span class="m">3632640</span> <span class="m">97320</span> ?       Ssl  <span class="m">00</span>:58   <span class="m">0</span>:09 /usr/bin/kubelet --bootstrap-kubeconfig<span class="o">=</span>/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig<span class="o">=</span>/etc/kubernetes/kubelet.conf --config<span class="o">=</span>/var/lib/kubelet/config.yaml --network-plugin<span class="o">=</span>cni --pod-infra-container-image<span class="o">=</span>k8s.gcr.io/pause:3.2
+root     <span class="m">26435</span>  <span class="m">0</span>.0  <span class="m">0</span>.0  <span class="m">11468</span>  <span class="m">1016</span> pts/0    S+   <span class="m">01</span>:01   <span class="m">0</span>:00 grep --color<span class="o">=</span>auto -i kubelet 
+root@node01:~# cat /var/lib/kubelet/config.yaml <span class="p">|</span> grep -i static
+staticPodPath: /etc/just-to-mess-with-you
+root@node01:~# <span class="nb">cd</span> /etc/just-to-mess-with-you
+root@node01:/etc/just-to-mess-with-you# ls -rtlh
+total <span class="m">4</span>.0K
+-rw-r--r-- <span class="m">1</span> root root <span class="m">301</span> Sep <span class="m">20</span> <span class="m">00</span>:58 greenbox.yaml
+root@node01:/etc/just-to-mess-with-you# 
+</pre></div>
+</div>
+</div>
+<p>multipleschedulers</p>
+<div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">multipleschedulers</span><a class="headerlink" href="#id17" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>when you have multiple schedulers on different master nodes,
+you can use --leader-elect<span class="o">=</span><span class="nb">true</span> option <span class="k">in</span> one of the master node with --lock-object-name option.
+
+
+In the pod-specification file we can use new filed called schedulerName and specify the custom scheduler name.
+</pre></div>
+</div>
+</div>
+<p>multipleschedulerlabs</p>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-text">multipleschedulerlabs</span><a class="headerlink" href="#id18" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# kubectl describe pod kube-scheduler-controlplane -n kube-system <span class="p">|</span> grep -i image    Image:         k8s.gcr.io/kube-scheduler:v1.20.0
+    Image ID:      docker-pullable://k8s.gcr.io/kube-scheduler@sha256:beaa710325047fa9c867eff4ab9af38d9c2acec05ac5b416c708c304f76bdbef
+  Normal  Pulled  9m29s  kubelet  Container image <span class="s2">&quot;k8s.gcr.io/kube-scheduler:v1.20.0&quot;</span> already present on machine
+root@controlplane:~# 
+
+
+
+Deploy an additional scheduler to the cluster following the given specification.
+Use the manifest file used by kubeadm tool. Use a different port than the one used by the current one.
+
+Namespace: kube-system
+Name: my-scheduler
+Status: Running
+Custom Scheduler Name
+
+
+
+root@controlplane:/etc/kubernetes/manifests# ls -rtlh
+total 16K
+-rw------- <span class="m">1</span> root root <span class="m">3</span>.8K Sep <span class="m">20</span> <span class="m">01</span>:13 kube-apiserver.yaml
+-rw------- <span class="m">1</span> root root <span class="m">1</span>.4K Sep <span class="m">20</span> <span class="m">01</span>:13 kube-scheduler.yaml
+-rw------- <span class="m">1</span> root root <span class="m">3</span>.3K Sep <span class="m">20</span> <span class="m">01</span>:13 kube-controller-manager.yaml
+-rw------- <span class="m">1</span> root root <span class="m">2</span>.2K Sep <span class="m">20</span> <span class="m">01</span>:13 etcd.yaml
+root@controlplane:/etc/kubernetes/manifests# cp kube-scheduler.yaml kube-scheduler-custom.yaml   
+root@controlplane:/etc/kubernetes/manifests#
+
+
+
+Copy kube-scheduler.yaml from the directory /etc/kubernetes/manifests/ to any other location and <span class="k">then</span> change the name to my-scheduler.
+
+Add or update the following <span class="nb">command</span> arguments <span class="k">in</span> the YAML file:
+
+- --leader-elect<span class="o">=</span><span class="nb">false</span>
+- --port<span class="o">=</span><span class="m">10282</span>
+- --scheduler-name<span class="o">=</span>my-scheduler
+- --secure-port<span class="o">=</span><span class="m">0</span>
+Here, we are setting leader-elect to <span class="nb">false</span> <span class="k">for</span> our new custom scheduler called my-scheduler.
+
+We are also making use of a different port <span class="m">10282</span> which is not currently <span class="k">in</span> use <span class="k">in</span> the controlplane.
+
+The default scheduler uses secure-port on port <span class="m">10259</span> to serve HTTPS with authentication and authorization. 
+This is not needed <span class="k">for</span> our custom scheduler, so we can disable HTTPS by setting the value of secure-port to <span class="m">0</span>.
+
+Finally, because we have <span class="nb">set</span> secure-port to <span class="m">0</span>, replace HTTPS with HTTP and use the correct ports under liveness and startup probes.
+
+default file as below
+----------------------------&gt; 
+spec:
+  containers:
+  - command:
+    - kube-scheduler
+    - --authentication-kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --authorization-kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --bind-address<span class="o">=</span><span class="m">127</span>.0.0.1
+    - --kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --leader-elect<span class="o">=</span><span class="nb">true</span>
+    - --port<span class="o">=</span><span class="m">0</span>
+
+
+change as below:
+----------------------------------&gt;
+
+spec:
+  containers:
+  - command:
+    - kube-scheduler
+    - --authentication-kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --authorization-kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --bind-address<span class="o">=</span><span class="m">127</span>.0.0.1
+    - --kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --leader-elect<span class="o">=</span><span class="nb">false</span>
+    - --port<span class="o">=</span><span class="m">10282</span>
+    - --scheduler-name<span class="o">=</span>my-scheduler
+    - --secure-port<span class="o">=</span><span class="m">0</span>
+    image: k8s.gcr.io/kube-scheduler:v1.20.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: <span class="m">8</span>
+      httpGet:
+        host: <span class="m">127</span>.0.0.1
+        path: /healthz
+        port: <span class="m">10282</span>
+        scheme: HTTP
+      initialDelaySeconds: <span class="m">10</span>
+      periodSeconds: <span class="m">10</span>
+      timeoutSeconds: <span class="m">15</span>
+    name: kube-scheduler
+
+
+Custom-Scheduler static pod specification file:
+--------------------------------------------------------&gt;
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: my-scheduler
+    tier: control-plane
+  name: my-scheduler
+  namespace: kube-system
+spec:
+  containers:
+  - command:
+    - kube-scheduler
+    - --authentication-kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --authorization-kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --bind-address<span class="o">=</span><span class="m">127</span>.0.0.1
+    - --kubeconfig<span class="o">=</span>/etc/kubernetes/scheduler.conf
+    - --leader-elect<span class="o">=</span><span class="nb">false</span>
+    - --port<span class="o">=</span><span class="m">10282</span>
+    - --scheduler-name<span class="o">=</span>my-scheduler
+    - --secure-port<span class="o">=</span><span class="m">0</span>
+    image: k8s.gcr.io/kube-scheduler:v1.19.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: <span class="m">8</span>
+      httpGet:
+        host: <span class="m">127</span>.0.0.1
+        path: /healthz
+        port: <span class="m">10282</span>
+        scheme: HTTP
+      initialDelaySeconds: <span class="m">10</span>
+      periodSeconds: <span class="m">10</span>
+      timeoutSeconds: <span class="m">15</span>
+    name: kube-scheduler
+    resources:
+      requests:
+        cpu: 100m
+    startupProbe:
+      failureThreshold: <span class="m">24</span>
+      httpGet:
+        host: <span class="m">127</span>.0.0.1
+        path: /healthz
+        port: <span class="m">10282</span>
+        scheme: HTTP
+      initialDelaySeconds: <span class="m">10</span>
+      periodSeconds: <span class="m">10</span>
+      timeoutSeconds: <span class="m">15</span>
+    volumeMounts:
+    - mountPath: /etc/kubernetes/scheduler.conf
+      name: kubeconfig
+      readOnly: <span class="nb">true</span>
+  hostNetwork: <span class="nb">true</span>
+  priorityClassName: system-node-critical
+  volumes:
+  - hostPath:
+      path: /etc/kubernetes/scheduler.conf
+      type: FileOrCreate
+    name: kubeconfig
+status: <span class="o">{}</span>
+
+
+
+
+root@controlplane:/etc/kubernetes/manifests# kubectl get pods -n kube-system <span class="p">|</span> grep -i scheduler
+kube-scheduler-controlplane            <span class="m">1</span>/1     Running   <span class="m">2</span>          2m26s
+my-scheduler-controlplane              <span class="m">1</span>/1     Running   <span class="m">0</span>          2m39s
+root@controlplane:/etc/kubernetes/manifests# 
+
+
+
+A POD definition file is given. Use it to create a POD with the new custom scheduler.
+File is located at /root/nginx-pod.yaml
+
+
+root@controlplane:~# cat nginx-pod.yaml 
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: nginx 
+spec:
+  schedulerName: my-scheduler
+  containers:
+  - image: nginx
+    name: nginx
+root@controlplane:~# 
+
+
+
+root@controlplane:~# kubectl get pods
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   <span class="m">0</span>/1     ContainerCreating   <span class="m">0</span>          13s
+root@controlplane:~# kubectl get pods
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   <span class="m">0</span>/1     ContainerCreating   <span class="m">0</span>          17s
+root@controlplane:~# kubectl get pods
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   <span class="m">1</span>/1     Running   <span class="m">0</span>          29s
+root@controlplane:~# 
+</pre></div>
+</div>
+</div>
+<div class="section" id="pods-deployments-daemonsets-with-labels-nodeselectors-taints-tolerations-affinity-antiaffinity-rules">
+<h2>pods/deployments/daemonsets with labels, nodeSelectors, taints/tolerations, affinity/antiaffinity rules<a class="headerlink" href="#pods-deployments-daemonsets-with-labels-nodeselectors-taints-tolerations-affinity-antiaffinity-rules" title="Permalink to this headline"></a></h2>
+<p>podlabels</p>
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">podlabels</span><a class="headerlink" href="#id19" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">App1</span>
+    <span class="nt">function</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Front-end</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">ports</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">containerPort</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">80</span>
+    <span class="nt">resources</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+  <span class="nt">dnsPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterFirst</span>
+  <span class="nt">restartPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="nt">status</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+</pre></div>
+</div>
+</div>
+<p>replicasetlabels</p>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-text">replicasetlabels</span><a class="headerlink" href="#id20" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ReplicaSet</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sample-web</span>
+  <span class="nt">labels</span><span class="p">:</span>                     <span class="c1"># ReplicaSet labels</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">App1</span>                 <span class="c1"># ReplicaSet labels</span>
+    <span class="nt">function</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Front-end</span>       <span class="c1"># ReplicaSet labels</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">replicas</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+  <span class="nt">selector</span><span class="p">:</span>
+    <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">App1</span>
+  <span class="nt">template</span><span class="p">:</span>
+    <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">labels</span><span class="p">:</span>                   <span class="c1"># Pod labels</span>
+        <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">App1</span>               <span class="c1"># Pod labels</span>
+        <span class="nt">function</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Front-end</span>     <span class="c1"># Pod labels</span>
+    <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">containers</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx-web</span>
+        <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</pre></div>
+</div>
+</div>
+<p>replicasetlabels2</p>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-text">replicasetlabels2</span><a class="headerlink" href="#id21" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ReplicaSet</span>
+<span class="nt">metadata</span><span class="p">:</span>
+   <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">replicaset-1</span>
+   <span class="nt">labels</span><span class="p">:</span>
+     <span class="nt">tier</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+   <span class="nt">replicas</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+   <span class="nt">selector</span><span class="p">:</span>
+      <span class="nt">matchLabels</span><span class="p">:</span>
+        <span class="nt">tier</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">frontend</span>
+   <span class="nt">template</span><span class="p">:</span>
+     <span class="nt">metadata</span><span class="p">:</span>
+       <span class="nt">labels</span><span class="p">:</span>
+         <span class="nt">tier</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">frontend</span>
+     <span class="nt">spec</span><span class="p">:</span>
+       <span class="nt">containers</span><span class="p">:</span>
+       <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+         <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</pre></div>
+</div>
+</div>
+<p>taintstolerations</p>
+<div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-text">taintstolerations</span><a class="headerlink" href="#id22" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># kubectl taint nodes node1 app=blue:NoSchedule</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">tolerations</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="s">&quot;app&quot;</span>
+      <span class="nt">operator</span><span class="p">:</span> <span class="s">&quot;Equal&quot;</span>
+      <span class="nt">value</span><span class="p">:</span> <span class="s">&quot;blue&quot;</span>
+      <span class="nt">effect</span><span class="p">:</span> <span class="s">&quot;NoSchedule&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>beepodtolerations</p>
+<div class="literal-block-wrapper docutils container" id="id23">
+<div class="code-block-caption"><span class="caption-text">beepodtolerations</span><a class="headerlink" href="#id23" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bee</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bee</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bee</span>
+  <span class="nt">tolerations</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="s">&quot;spray&quot;</span>
+      <span class="nt">operator</span><span class="p">:</span> <span class="s">&quot;Equal&quot;</span>
+      <span class="nt">value</span><span class="p">:</span> <span class="s">&quot;mortein&quot;</span>
+      <span class="nt">effect</span><span class="p">:</span> <span class="s">&quot;NoSchedule&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>podnodeselector</p>
+<div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-text">podnodeselector</span><a class="headerlink" href="#id24" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">nodeSelector</span><span class="p">:</span>
+    <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Large</span>  <span class="c1"># This is the node label</span>
+</pre></div>
+</div>
+</div>
+<p>podnodeaffinity_In</p>
+<div class="literal-block-wrapper docutils container" id="id25">
+<div class="code-block-caption"><span class="caption-text">podnodeaffinity_In</span><a class="headerlink" href="#id25" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx1</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx1</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">affinity</span><span class="p">:</span>
+    <span class="nt">nodeAffinity</span><span class="p">:</span>
+      <span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+          <span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+          <span class="p p-Indicator">-</span> <span class="nt">matchExpressions</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">size</span>
+              <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">In</span>
+              <span class="nt">values</span><span class="p">:</span>
+              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Large</span>
+              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Medium</span>
+     
+</pre></div>
+</div>
+</div>
+<p>podnodeaffinity_NotIn</p>
+<div class="literal-block-wrapper docutils container" id="id26">
+<div class="code-block-caption"><span class="caption-text">podnodeaffinity_NotIn</span><a class="headerlink" href="#id26" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx2</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx2</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">affinity</span><span class="p">:</span>
+    <span class="nt">nodeAffinity</span><span class="p">:</span>
+      <span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+          <span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+          <span class="p p-Indicator">-</span> <span class="nt">matchExpressions</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">size</span>
+              <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">NotIn</span>
+              <span class="nt">values</span><span class="p">:</span>
+              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Small</span>
+              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Big</span>
+     
+</pre></div>
+</div>
+</div>
+<p>podnodeaffinity_Exists</p>
+<div class="literal-block-wrapper docutils container" id="id27">
+<div class="code-block-caption"><span class="caption-text">podnodeaffinity_Exists</span><a class="headerlink" href="#id27" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx3</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx3</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">affinity</span><span class="p">:</span>
+    <span class="nt">nodeAffinity</span><span class="p">:</span>
+      <span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+          <span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+          <span class="p p-Indicator">-</span> <span class="nt">matchExpressions</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">size</span>
+              <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Exists</span>
+     
+</pre></div>
+</div>
+</div>
+<p>deploymentnodeaffinity</p>
+<div class="literal-block-wrapper docutils container" id="id28">
+<div class="code-block-caption"><span class="caption-text">deploymentnodeaffinity</span><a class="headerlink" href="#id28" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">red</span> 
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">red</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">replicas</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+  <span class="nt">selector</span><span class="p">:</span>
+    <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">red</span> 
+  <span class="nt">strategy</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+  <span class="nt">template</span><span class="p">:</span>
+    <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+      <span class="nt">labels</span><span class="p">:</span>
+        <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">red</span> 
+    <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">containers</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">resources</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+      <span class="nt">affinity</span><span class="p">:</span>
+        <span class="nt">nodeAffinity</span><span class="p">:</span>
+          <span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+            <span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+              <span class="p p-Indicator">-</span> <span class="nt">matchExpressions</span><span class="p">:</span>
+                <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">node-role.kubernetes.io/master</span>  
+                  <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Exists</span>
+</pre></div>
+</div>
+</div>
+<p>deploymentnodeaffinity2</p>
+<div class="literal-block-wrapper docutils container" id="id29">
+<div class="code-block-caption"><span class="caption-text">deploymentnodeaffinity2</span><a class="headerlink" href="#id29" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blue</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blue</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">replicas</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+  <span class="nt">selector</span><span class="p">:</span>
+    <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blue</span>
+  <span class="nt">strategy</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+  <span class="nt">template</span><span class="p">:</span>
+    <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+      <span class="nt">labels</span><span class="p">:</span>
+        <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blue</span>
+    <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">containers</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+      <span class="nt">affinity</span><span class="p">:</span>
+        <span class="nt">nodeAffinity</span><span class="p">:</span>
+          <span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+            <span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+              <span class="p p-Indicator">-</span> <span class="nt">matchExpressions</span><span class="p">:</span>
+                <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">color</span>
+                  <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">In</span>
+                  <span class="nt">values</span><span class="p">:</span>
+                  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">blue</span> 
+<span class="nt">status</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+</pre></div>
+</div>
+</div>
+<p>podresources</p>
+<div class="literal-block-wrapper docutils container" id="id30">
+<div class="code-block-caption"><span class="caption-text">podresources</span><a class="headerlink" href="#id30" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">ports</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">containerPort</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">80</span>
+    <span class="nt">resources</span><span class="p">:</span>
+      <span class="nt">requests</span><span class="p">:</span>
+        <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;1Gi&quot;</span>
+        <span class="nt">cpu</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+      <span class="nt">limits</span><span class="p">:</span>
+        <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;2Gi&quot;</span>
+        <span class="nt">cpu</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+  
+</pre></div>
+</div>
+</div>
+<p>webappdeployment</p>
+<div class="literal-block-wrapper docutils container" id="id31">
+<div class="code-block-caption"><span class="caption-text">webappdeployment</span><a class="headerlink" href="#id31" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">replicas</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="nt">selector</span><span class="p">:</span>
+    <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+  <span class="nt">strategy</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+  <span class="nt">template</span><span class="p">:</span>
+    <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+      <span class="nt">labels</span><span class="p">:</span>
+        <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+    <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">containers</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">resources</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+<span class="nt">status</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+</pre></div>
+</div>
+</div>
+<p>webappreplicaset</p>
+<div class="literal-block-wrapper docutils container" id="id32">
+<div class="code-block-caption"><span class="caption-text">webappreplicaset</span><a class="headerlink" href="#id32" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ReplicaSet</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">replicas</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="nt">selector</span><span class="p">:</span>
+    <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+  <span class="nt">template</span><span class="p">:</span>
+    <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">labels</span><span class="p">:</span>
+        <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+    <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">containers</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</pre></div>
+</div>
+</div>
+<p>webappdaemonset</p>
+<div class="literal-block-wrapper docutils container" id="id33">
+<div class="code-block-caption"><span class="caption-text">webappdaemonset</span><a class="headerlink" href="#id33" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DaemonSet</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-daemon</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">selector</span><span class="p">:</span>
+    <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-agent</span>
+  <span class="nt">template</span><span class="p">:</span>
+    <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">labels</span><span class="p">:</span>
+        <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-agent</span>
+    <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">containers</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</pre></div>
+</div>
+</div>
+<p>staticpod_busybox</p>
+<div class="literal-block-wrapper docutils container" id="id34">
+<div class="code-block-caption"><span class="caption-text">staticpod_busybox</span><a class="headerlink" href="#id34" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">static-busybox</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">static-busybox</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep</span>
+    <span class="p p-Indicator">-</span> <span class="s">&quot;1000&quot;</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">busybox</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">static-busybox</span>
+    <span class="nt">resources</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+  <span class="nt">dnsPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterFirst</span>
+  <span class="nt">restartPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Never</span>
+<span class="nt">status</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+</pre></div>
+</div>
+</div>
+<p>custom_scheduler</p>
+<div class="literal-block-wrapper docutils container" id="id35">
+<div class="code-block-caption"><span class="caption-text">custom_scheduler</span><a class="headerlink" href="#id35" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span> 
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span> 
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span> 
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">schedulerName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-scheduler</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core-concepts.html" class="btn btn-neutral float-left" title="Core Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="logging-monitoring.html" class="btn btn-neutral float-right" title="Logging and Monitoring" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

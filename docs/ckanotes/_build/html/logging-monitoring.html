@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logging and Monitoring &mdash; CKA Notes  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/custom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Application lifecycle management" href="application-lifecycle-management.html" />
+    <link rel="prev" title="Scheduling" href="scheduling.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> CKA Notes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The CKABOOK:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduling.html">Scheduling</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Logging and Monitoring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-pod">Monitoring pod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-metrics-server">Install Metrics-Server</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application-lifecycle-management.html">Application lifecycle management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-maintenance.html">Cluster Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-k8s.html">Design Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install-k8s-kubeadm.html">Install Kubernetes with kubeadm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">troubleshooting in k8s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kodekloud-labs.html">kodekloud labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="killersh-labs.html">killer.sh simulator labs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CKA Notes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Logging and Monitoring</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="logging-and-monitoring">
+<h1>Logging and Monitoring<a class="headerlink" href="#logging-and-monitoring" title="Permalink to this headline"></a></h1>
+<p>Monitorclustercomponents</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Monitorclustercomponents</span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>To monitor kubernetes cluster can use
+opensource:
+---------------------&gt;
+<span class="m">1</span>. Metrics Server --&gt; no historical Metrics
+<span class="m">2</span>. Prometheus
+<span class="m">3</span>. Elastic Stack
+
+Proprietory:
+----------------&gt;
+<span class="m">4</span>. Datadog
+<span class="m">5</span>. Dynatrace
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % minikube addons <span class="nb">enable</span> metrics-server
+    ▪ Using image k8s.gcr.io/metrics-server/metrics-server:v0.4.2
+🌟  The <span class="s1">&#39;metrics-server&#39;</span> addon is enabled
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % minikube addons <span class="nb">enable</span> dashboard     
+    ▪ Using image kubernetesui/dashboard:v2.1.0
+    ▪ Using image kubernetesui/metrics-scraper:v1.0.4
+💡  Some dashboard features require the metrics-server addon. To <span class="nb">enable</span> all features please run:
+
+        minikube addons <span class="nb">enable</span> metrics-server
+
+
+🌟  The <span class="s1">&#39;dashboard&#39;</span> addon is enabled
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % minikube dashboard --url        
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+http://127.0.0.1:59522/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+
+
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % kubectl top node
+NAME       CPU<span class="o">(</span>cores<span class="o">)</span>   CPU%   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   MEMORY%   
+minikube   493m         <span class="m">24</span>%    898Mi           <span class="m">45</span>%       
+bharathdasaraju@MacBook-Pro <span class="m">2</span>.Scheduling % 
+</pre></div>
+</div>
+</div>
+<p>Monitorclustercomponentslabs</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Monitorclustercomponentslabs</span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+elephant   <span class="m">1</span>/1     Running   <span class="m">0</span>          47s
+lion       <span class="m">1</span>/1     Running   <span class="m">0</span>          47s
+rabbit     <span class="m">1</span>/1     Running   <span class="m">0</span>          47s
+root@controlplane:~# 
+
+
+Deploy a metrics-server
+
+git clone https://github.com/kodekloudhub/kubernetes-metrics-server.git
+
+root@controlplane:~# git clone https://github.com/kodekloudhub/kubernetes-metrics-server.git
+Cloning into <span class="s1">&#39;kubernetes-metrics-server&#39;</span>...
+remote: Enumerating objects: <span class="m">24</span>, <span class="k">done</span>.
+remote: Counting objects: <span class="m">100</span>% <span class="o">(</span><span class="m">12</span>/12<span class="o">)</span>, <span class="k">done</span>.
+remote: Compressing objects: <span class="m">100</span>% <span class="o">(</span><span class="m">12</span>/12<span class="o">)</span>, <span class="k">done</span>.
+remote: Total <span class="m">24</span> <span class="o">(</span>delta <span class="m">4</span><span class="o">)</span>, reused <span class="m">0</span> <span class="o">(</span>delta <span class="m">0</span><span class="o">)</span>, pack-reused <span class="m">12</span>
+Unpacking objects: <span class="m">100</span>% <span class="o">(</span><span class="m">24</span>/24<span class="o">)</span>, <span class="k">done</span>.
+root@controlplane:~# 
+
+root@controlplane:~# <span class="nb">cd</span> kubernetes-metrics-server/
+root@controlplane:~/kubernetes-metrics-server# ls -rtlh
+total 32K
+-rw-r--r-- <span class="m">1</span> root root <span class="m">384</span> Sep <span class="m">20</span> <span class="m">02</span>:53 aggregated-metrics-reader.yaml
+-rw-r--r-- <span class="m">1</span> root root <span class="m">219</span> Sep <span class="m">20</span> <span class="m">02</span>:53 README.md
+-rw-r--r-- <span class="m">1</span> root root <span class="m">612</span> Sep <span class="m">20</span> <span class="m">02</span>:53 resource-reader.yaml
+-rw-r--r-- <span class="m">1</span> root root <span class="m">249</span> Sep <span class="m">20</span> <span class="m">02</span>:53 metrics-server-service.yaml
+-rw-r--r-- <span class="m">1</span> root root <span class="m">976</span> Sep <span class="m">20</span> <span class="m">02</span>:53 metrics-server-deployment.yaml
+-rw-r--r-- <span class="m">1</span> root root <span class="m">293</span> Sep <span class="m">20</span> <span class="m">02</span>:53 metrics-apiservice.yaml
+-rw-r--r-- <span class="m">1</span> root root <span class="m">324</span> Sep <span class="m">20</span> <span class="m">02</span>:53 auth-reader.yaml
+-rw-r--r-- <span class="m">1</span> root root <span class="m">303</span> Sep <span class="m">20</span> <span class="m">02</span>:53 auth-delegator.yaml
+root@controlplane:~/kubernetes-metrics-server# 
+
+
+root@controlplane:~/kubernetes-metrics-server# kubectl create -f .
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+serviceaccount/metrics-server created
+deployment.apps/metrics-server created
+service/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+root@controlplane:~/kubernetes-metrics-server# 
+
+
+root@controlplane:~/kubernetes-metrics-server# kubectl top node
+NAME           CPU<span class="o">(</span>cores<span class="o">)</span>   CPU%   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   MEMORY%   
+controlplane   502m         <span class="m">1</span>%     1274Mi          <span class="m">0</span>%        
+node01         88m          <span class="m">0</span>%     374Mi           <span class="m">0</span>%        
+root@controlplane:~/kubernetes-metrics-server# 
+
+
+root@controlplane:~/kubernetes-metrics-server# kubectl top pod -n kube-system
+NAME                                   CPU<span class="o">(</span>cores<span class="o">)</span>   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   
+coredns-74ff55c5b-lvss6                6m           18Mi            
+coredns-74ff55c5b-vcmhj                5m           18Mi            
+etcd-controlplane                      35m          42Mi            
+kube-apiserver-controlplane            104m         306Mi           
+kube-controller-manager-controlplane   37m          56Mi            
+kube-flannel-ds-sz9vl                  5m           36Mi            
+kube-flannel-ds-v54mw                  6m           36Mi            
+kube-proxy-274jt                       1m           30Mi            
+kube-proxy-7nfrj                       1m           30Mi            
+kube-scheduler-controlplane            8m           24Mi            
+metrics-server-774b56d589-2wb8t        3m           19Mi            
+root@controlplane:~/kubernetes-metrics-server# kubectl top pod -n default    
+NAME       CPU<span class="o">(</span>cores<span class="o">)</span>   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   
+elephant   28m          32Mi            
+lion       1m           18Mi            
+rabbit     171m         253Mi           
+root@controlplane:~/kubernetes-metrics-server# 
+
+
+root@controlplane:~/kubernetes-metrics-server# kubectl top node
+NAME           CPU<span class="o">(</span>cores<span class="o">)</span>   CPU%   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   MEMORY%   
+controlplane   501m         <span class="m">1</span>%     1174Mi          <span class="m">0</span>%        
+node01         103m         <span class="m">0</span>%     378Mi           <span class="m">0</span>%        
+root@controlplane:~/kubernetes-metrics-server# 
+
+
+root@controlplane:~/kubernetes-metrics-server# kubectl top node
+NAME           CPU<span class="o">(</span>cores<span class="o">)</span>   CPU%   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   MEMORY%   
+controlplane   500m         <span class="m">1</span>%     1237Mi          <span class="m">0</span>%        
+node01         92m          <span class="m">0</span>%     380Mi           <span class="m">0</span>%        
+root@controlplane:~/kubernetes-metrics-server# 
+
+
+root@controlplane:~/kubernetes-metrics-server# kubectl top pod
+NAME       CPU<span class="o">(</span>cores<span class="o">)</span>   MEMORY<span class="o">(</span>bytes<span class="o">)</span>   
+elephant   30m          30Mi            
+lion       1m           18Mi            
+rabbit     156m         253Mi           
+root@controlplane:~/kubernetes-metrics-server# 
+</pre></div>
+</div>
+</div>
+<p>applogs</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">applogs</span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % docker run kodekloud/event-simulator
+Unable to find image <span class="s1">&#39;kodekloud/event-simulator:latest&#39;</span> locally
+latest: Pulling from kodekloud/event-simulator
+4fe2ade4980c: Pull <span class="nb">complete</span> 
+7cf6a1d62200: Pull <span class="nb">complete</span> 
+cd7a503c982e: Pull <span class="nb">complete</span> 
+Digest: sha256:1e3e9c72136bbc76c96dd98f29c04f298c3ae241c7d44e2bf70bcc209b030bf9
+Status: Downloaded newer image <span class="k">for</span> kodekloud/event-simulator:latest
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:03:40,440<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:03:41,441<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:03:42,442<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:03:54,460<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:03:55,462<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:04:03,445<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:04:04,446<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:04:04,448<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:04:05,449<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:04:05,449<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page1
+^CTraceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;event-simulator.py&quot;</span>, line <span class="m">54</span>, <span class="k">in</span> &lt;module&gt;
+    time.sleep<span class="o">(</span><span class="m">1</span><span class="o">)</span>
+KeyboardInterrupt
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring %
+
+
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % docker run -d kodekloud/event-simulator
+8fa3501504271d3a8fc28debbff4d569ae09772fdc2565fa56aee770220b687e
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % docker logs -f 8fa
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:53,275<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:54,277<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:55,278<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:56,280<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:57,282<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:58,249<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:58,250<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:06:59,251<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:00,254<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:01,255<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:01,256<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:02,257<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:03,259<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:03,261<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:04,263<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:05,265<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:06,267<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:07:07,271<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page2
+^C%                                                                                                                                                                                                                                      
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % 
+
+
+
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % kubectl run logs-events --image<span class="o">=</span>kodekloud/event-simulator --dry-run<span class="o">=</span>client -o yaml &gt; event-simulator.yaml  
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % kubectl create -f event-simulator.yaml 
+pod/logs-events created
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % 
+
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % kubectl logs logs-events -f
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:31,489<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:32,493<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:33,494<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:34,495<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:35,495<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:36,497<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:36,497<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:37,499<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:38,500<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:39,501<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:39,501<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:40,502<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:41,502<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:41,503<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:18:42,503<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+^C
+bharathdasaraju@MacBook-Pro <span class="m">3</span>.Logging_and_Monitoring % 
+</pre></div>
+</div>
+</div>
+<p>applogslabs</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">applogslabs</span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@controlplane:~# kubectl logs -f webapp-2 simple-webapp 
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:24,120<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:25,122<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:26,124<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:27,124<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:28,126<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:29,127<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:29,128<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:30,128<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:31,130<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:32,132<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER30 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:32,132<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:33,133<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:34,134<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:34,134<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:35,135<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:36,136<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:37,138<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:38,139<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:39,141<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:39,141<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page1
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:40,142<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER30 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:40,142<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:41,144<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:42,145<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:43,147<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:44,149<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:44,149<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:45,151<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:46,152<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:47,154<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:48,156<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER30 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:48,156<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:49,156<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:49,157<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:50,158<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:51,160<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:52,161<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:53,161<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:54,162<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:54,163<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER4 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:55,165<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER3 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:56,184<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER30 Order failed as the item is OUT OF STOCK.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:56,185<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:57,186<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:58,188<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:59,189<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:23:59,190<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 is viewing page2
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:24:00,192<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:24:01,193<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER2 logged <span class="k">in</span>
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:24:02,194<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 logged out
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:24:03,196<span class="o">]</span> INFO <span class="k">in</span> event-simulator: USER1 is viewing page3
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:24:04,197<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+<span class="o">[</span><span class="m">2021</span>-09-20 <span class="m">03</span>:24:04,198<span class="o">]</span> WARNING <span class="k">in</span> event-simulator: USER30 Order failed as the item is OUT OF STOCK.
+</pre></div>
+</div>
+</div>
+<div class="section" id="monitoring-pod">
+<h2>Monitoring pod<a class="headerlink" href="#monitoring-pod" title="Permalink to this headline"></a></h2>
+<p>podeventsimulator</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">podeventsimulator</span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">creationTimestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">logs-events</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">logs-events</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kodekloud/event-simulator</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">logs-events</span>
+    <span class="nt">resources</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+  <span class="nt">dnsPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterFirst</span>
+  <span class="nt">restartPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="nt">status</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="install-metrics-server">
+<h2>Install Metrics-Server<a class="headerlink" href="#install-metrics-server" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><strong>Metrics Server in minikube</strong> -</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/minikube_dashboard.png"><img alt="_images/minikube_dashboard.png" class="align-center" src="_images/minikube_dashboard.png" style="width: 80%;" /></a>
+<p>used below code to install metics-server in minikube</p>
+<p>metrics-server code at <a class="reference external" href="https://github.com/Bharathkumarraju/certified_kubernetes_administrator/tree/master/Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/k8s_metrics-server/">metrics-server</a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="scheduling.html" class="btn btn-neutral float-left" title="Scheduling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="application-lifecycle-management.html" class="btn btn-neutral float-right" title="Application lifecycle management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
