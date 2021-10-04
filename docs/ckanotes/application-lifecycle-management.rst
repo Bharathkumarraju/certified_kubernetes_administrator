@@ -182,7 +182,7 @@ init_container
 
 
 configure sidecar to send logs to elasticsearch
-------------------------------------------------------
+--------------------------------------------------
 
 used below code to to configure ELK
 
@@ -198,6 +198,6 @@ command args in pod specification
 
 pod specifications at `webpods`_.
 
-.. _webpods: https://github.com/Bharathkumarraju/certified_kubernetes_administrator/tree/master/Four_September_2021_CKA_Recap/4.Application_lifecycle_mgmt/kubect_commands_args/
+.. _webpods: https://github.com/Bharathkumarraju/certified_kubernetes_administrator/tree/master/Four_September_2021_CKA_Recap/4.Application_lifecycle_mgmt/kubectl_commands_args/
 
 
