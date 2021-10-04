@@ -23,3 +23,4 @@ k8slocal with vagrant
 k8s vagrant code at `vagrant_k8s`_.
 
 .. _vagrant_k8s: https://github.com/Bharathkumarraju/certified_kubernetes_administrator/tree/master/Four_September_2021_CKA_Recap/10.install_k8s_with_kubeadm/kodekloud_vagrant/certified-kubernetes-administrator-course/
+
