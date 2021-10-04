@@ -27,5 +27,3 @@ All the code can be found at `bharath-cka`_.
     kodekloud-labs
     killersh-labs
 
-
-
