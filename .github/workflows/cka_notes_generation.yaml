@@ -41,7 +41,7 @@ jobs:
 
 
       - name: Upload html docs to s3
-        run: aws s3 sync . s3://bharathkumarrajussckanotebook --region ap-southeast-1
+        run: aws s3 sync . s3://bharathkumarraajusckanotebook --region ap-southeast-1
         working-directory: docs/ckanotes/_build/html
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
