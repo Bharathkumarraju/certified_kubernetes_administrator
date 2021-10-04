@@ -61,3 +61,4 @@ jsonpath_k8s
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/11.Troubleshooting/10.demo_jsonpaths_k8s_labs.sh
   :language: bash
   :caption: jsonpath_k8s
+

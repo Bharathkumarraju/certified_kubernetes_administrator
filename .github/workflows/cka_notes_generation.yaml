@@ -17,6 +17,15 @@ jobs:
       - name: Checkout public repo
         uses: actions/checkout@master
 
+      - name: Init and plan and apply terraform to create remote state in s3 and locking in dynamodb
+        run: terraform init -input=false -var-file=bharath.tfvars && terraform plan -input=false -var-file=bharath.tfvars  && terraform apply -input=false -var-file=bharath.tfvars  -auto-approve
+        working-directory: ./terraform/app
+        env:
+          TF_IN_AUTOMATION: true
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
       - name: Run playbook to install python sphnix
         run: |
           ansible-playbook playbook.yml -vv  --tags="docsgen"
@@ -29,3 +38,12 @@ jobs:
       - name: Zip up compiled html docs
         run: tar -czf ../../../../docs/ckanotesdocs.tar.gz .
         working-directory: docs/ckanotes/_build/html
+
+
+      - name: Upload html docs to s3
+        run: aws s3 sync . s3://bharathkumarrajussckanotebook --region ap-southeast-1
+        working-directory: docs/workbook/_build/html
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
