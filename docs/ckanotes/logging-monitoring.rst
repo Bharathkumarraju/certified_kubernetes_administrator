@@ -33,7 +33,7 @@ podeventsimulator
 
 .. literalinclude:: ../../Four_September_2021_CKA_Recap/3.Logging_and_Monitoring/event-simulator.yaml
   :language: yaml
-  :caption: podeventsimulator:
+  :caption: podeventsimulator
 
 Install Metrics-Server
 --------------------------
