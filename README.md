@@ -1,5 +1,10 @@
 # certified_kubernetes_administrator
-Certified Kubernetes Administrators Certification
+Certified Kubernetes Administrators Certification Obtained by me
+
+![Bharaths CKA](./bk-cka.png)
+
+
+## My Preparation notes can be foun dhere
 
 https://cka.devopsforitengineers.com/ 
 
