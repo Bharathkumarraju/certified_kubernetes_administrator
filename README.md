@@ -6,7 +6,7 @@ Certified Kubernetes Administrators Certification Obtained by me
 
 ## My Preparation notes can be foun dhere
 
-https://cka.devopsforitengineers.com/ 
+https://cka.devops4itengineers.com/ 
 
 
 ## KodeKloud course
