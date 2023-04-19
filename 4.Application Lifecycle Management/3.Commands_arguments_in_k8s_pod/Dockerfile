@@ -1,3 +1,3 @@
-FROM ubuntu
+FROM ubuntu:22.10
 ENTRYPOINT ["sleep"]
 CMD ["10"]
