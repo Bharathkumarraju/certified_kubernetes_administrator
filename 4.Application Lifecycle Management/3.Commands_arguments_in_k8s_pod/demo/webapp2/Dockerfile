@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.12.0rc1-alpine
 RUN pip install flask
 
 COPY . /opt/
